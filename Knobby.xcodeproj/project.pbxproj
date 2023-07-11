@@ -1,0 +1,572 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CC18E80E2A5DE0CD0074EB30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */; };
+		CC18E8102A5DE0CD0074EB30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */; };
+		CC18E8132A5DE0CD0074EB30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */; };
+		CC18E81E2A5DE0CE0074EB30 /* KnobbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */; };
+		CC18E8282A5DE0CE0074EB30 /* KnobbyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */; };
+		CC18E82A2A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CC18E81A2A5DE0CE0074EB30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC18E8022A5DE0CD0074EB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC18E8092A5DE0CD0074EB30;
+			remoteInfo = Knobby;
+		};
+		CC18E8242A5DE0CE0074EB30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC18E8022A5DE0CD0074EB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC18E8092A5DE0CD0074EB30;
+			remoteInfo = Knobby;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CC18E80A2A5DE0CD0074EB30 /* Knobby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CC18E8122A5DE0CD0074EB30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CC18E8142A5DE0CD0074EB30 /* Knobby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Knobby.entitlements; sourceTree = "<group>"; };
+		CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyTests.swift; sourceTree = "<group>"; };
+		CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyUITests.swift; sourceTree = "<group>"; };
+		CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CC18E8072A5DE0CD0074EB30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E8162A5DE0CE0074EB30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E8202A5DE0CE0074EB30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CC18E8012A5DE0CD0074EB30 = {
+			isa = PBXGroup;
+			children = (
+				CC18E80C2A5DE0CD0074EB30 /* Knobby */,
+				CC18E81C2A5DE0CE0074EB30 /* KnobbyTests */,
+				CC18E8262A5DE0CE0074EB30 /* KnobbyUITests */,
+				CC18E80B2A5DE0CD0074EB30 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC18E80B2A5DE0CD0074EB30 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC18E80A2A5DE0CD0074EB30 /* Knobby.app */,
+				CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */,
+				CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CC18E80C2A5DE0CD0074EB30 /* Knobby */ = {
+			isa = PBXGroup;
+			children = (
+				CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */,
+				CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */,
+				CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */,
+				CC18E8142A5DE0CD0074EB30 /* Knobby.entitlements */,
+			);
+			path = Knobby;
+			sourceTree = "<group>";
+		};
+		CC18E81C2A5DE0CE0074EB30 /* KnobbyTests */ = {
+			isa = PBXGroup;
+			children = (
+				CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */,
+			);
+			path = KnobbyTests;
+			sourceTree = "<group>";
+		};
+		CC18E8262A5DE0CE0074EB30 /* KnobbyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */,
+				CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */,
+			);
+			path = KnobbyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CC18E8092A5DE0CD0074EB30 /* Knobby */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC18E82D2A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "Knobby" */;
+			buildPhases = (
+				CC18E8062A5DE0CD0074EB30 /* Sources */,
+				CC18E8072A5DE0CD0074EB30 /* Frameworks */,
+				CC18E8082A5DE0CD0074EB30 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Knobby;
+			productName = Knobby;
+			productReference = CC18E80A2A5DE0CD0074EB30 /* Knobby.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CC18E8182A5DE0CE0074EB30 /* KnobbyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC18E8302A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyTests" */;
+			buildPhases = (
+				CC18E8152A5DE0CE0074EB30 /* Sources */,
+				CC18E8162A5DE0CE0074EB30 /* Frameworks */,
+				CC18E8172A5DE0CE0074EB30 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC18E81B2A5DE0CE0074EB30 /* PBXTargetDependency */,
+			);
+			name = KnobbyTests;
+			productName = KnobbyTests;
+			productReference = CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CC18E8222A5DE0CE0074EB30 /* KnobbyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC18E8332A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyUITests" */;
+			buildPhases = (
+				CC18E81F2A5DE0CE0074EB30 /* Sources */,
+				CC18E8202A5DE0CE0074EB30 /* Frameworks */,
+				CC18E8212A5DE0CE0074EB30 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC18E8252A5DE0CE0074EB30 /* PBXTargetDependency */,
+			);
+			name = KnobbyUITests;
+			productName = KnobbyUITests;
+			productReference = CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CC18E8022A5DE0CD0074EB30 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					CC18E8092A5DE0CD0074EB30 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					CC18E8182A5DE0CE0074EB30 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = CC18E8092A5DE0CD0074EB30;
+					};
+					CC18E8222A5DE0CE0074EB30 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = CC18E8092A5DE0CD0074EB30;
+					};
+				};
+			};
+			buildConfigurationList = CC18E8052A5DE0CD0074EB30 /* Build configuration list for PBXProject "Knobby" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CC18E8012A5DE0CD0074EB30;
+			productRefGroup = CC18E80B2A5DE0CD0074EB30 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CC18E8092A5DE0CD0074EB30 /* Knobby */,
+				CC18E8182A5DE0CE0074EB30 /* KnobbyTests */,
+				CC18E8222A5DE0CE0074EB30 /* KnobbyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CC18E8082A5DE0CD0074EB30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC18E8102A5DE0CD0074EB30 /* Assets.xcassets in Resources */,
+				CC18E8132A5DE0CD0074EB30 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E8172A5DE0CE0074EB30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E8212A5DE0CE0074EB30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CC18E8062A5DE0CD0074EB30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC18E80E2A5DE0CD0074EB30 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E8152A5DE0CE0074EB30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC18E81E2A5DE0CE0074EB30 /* KnobbyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC18E81F2A5DE0CE0074EB30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC18E8282A5DE0CE0074EB30 /* KnobbyUITests.swift in Sources */,
+				CC18E82A2A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CC18E81B2A5DE0CE0074EB30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
+			targetProxy = CC18E81A2A5DE0CE0074EB30 /* PBXContainerItemProxy */;
+		};
+		CC18E8252A5DE0CE0074EB30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
+			targetProxy = CC18E8242A5DE0CE0074EB30 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC18E8122A5DE0CD0074EB30 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CC18E82B2A5DE0CE0074EB30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CC18E82C2A5DE0CE0074EB30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		CC18E82E2A5DE0CE0074EB30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Knobby/Knobby.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CC18E82F2A5DE0CE0074EB30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Knobby/Knobby.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CC18E8312A5DE0CE0074EB30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
+			};
+			name = Debug;
+		};
+		CC18E8322A5DE0CE0074EB30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
+			};
+			name = Release;
+		};
+		CC18E8342A5DE0CE0074EB30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Knobby;
+			};
+			name = Debug;
+		};
+		CC18E8352A5DE0CE0074EB30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Knobby;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CC18E8052A5DE0CD0074EB30 /* Build configuration list for PBXProject "Knobby" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC18E82B2A5DE0CE0074EB30 /* Debug */,
+				CC18E82C2A5DE0CE0074EB30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC18E82D2A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "Knobby" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC18E82E2A5DE0CE0074EB30 /* Debug */,
+				CC18E82F2A5DE0CE0074EB30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC18E8302A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC18E8312A5DE0CE0074EB30 /* Debug */,
+				CC18E8322A5DE0CE0074EB30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC18E8332A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC18E8342A5DE0CE0074EB30 /* Debug */,
+				CC18E8352A5DE0CE0074EB30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CC18E8022A5DE0CD0074EB30 /* Project object */;
+}
