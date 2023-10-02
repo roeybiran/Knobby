@@ -1,93 +1,53 @@
 import SwiftUI
 
-// MARK: - ContentView
+  // MARK: - ContentView
 
 struct MainView: View {
-  @ObservedObject var viewModel: ViewModel
-  @State var monitor: Any?
-  @State private var volumeValue = 0.0
-  @State private var brightnessValue = 0.0
-  @FocusState var focusedField: FocusedField?
+  @Bindable var viewModel: ViewModel
+  @FocusState private var focusedField: FocusedSlider?
 
-  enum FocusedField: Equatable {
+  enum FocusedSlider: Equatable {
     case volume, brightness
   }
 
-  func getCurrentValue() -> Double? {
-    switch focusedField {
-    case .brightness:
-      brightnessValue
-    case .volume:
-       volumeValue
-    case .none:
-      nil
-    }
-  }
-
-  func settCurrentValue(_ newValue: Double) {
-    switch focusedField {
-    case .brightness:
-      brightnessValue = newValue
-    case .volume:
-      volumeValue = newValue
-    case .none:
-      return
-    }
-  }
-
   var body: some View {
+    Spacer()
     Form {
-      Slider(value: $volumeValue, in: 0...1, step: 0.1) {
-        Text("Volume")
-      }
-      .focused($focusedField, equals: .volume)
-      Slider(value: $brightnessValue, in: 0...1, step: 0.1) {
-        Text("Brightness")
+      Slider(
+        value: .init(
+          get: { viewModel.volumeValue },
+          set: { viewModel.onVolumeSliderChange(to: $0) }
+        ), in: 0...1, step: 0.1) {
+          Image(systemName: "speaker.wave.3.fill")
+        }
+        .focused($focusedField, equals: .volume)
+      Slider(
+        value: .init(
+          get: { viewModel.brightnessValue },
+          set: { viewModel.onBrightnessSliderChange(to: $0) }
+        ), in: 0...1, step: 0.1) {
+        Image(systemName: "sun.max.fill")
       }
       .focused($focusedField, equals: .brightness)
     }
     .formStyle(.grouped)
-    .onAppear {
-      viewModel.onAppear()
-      volumeValue = Double(viewModel.volumeValue)
-      brightnessValue = Double(viewModel.brightnessValue)
-
-      monitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
-        guard let current = getCurrentValue() else { return event }
-        var newValue = current
-
-        switch event.keyCode {
-        case 37: // l
-          newValue += 0.1
-        case 4: // h
-          newValue -= 0.1
-        case 38: // j
-          newValue = 0
-        case 40: // k
-          newValue = 1
-        default:
-          break
-        }
-
-        settCurrentValue(max(newValue, 0))
-        return event
+    .onKeyPress(action: { press in
+      if viewModel.reservedKeys.contains(press.key.character) {
+        viewModel.onKeyPress(press.key.character)
+        return .handled
+      } else {
+        return .ignored
       }
-    }
-    .onChange(of: brightnessValue, perform: { value in
-      viewModel.brightnessChanged(to: Float(value))
     })
-    .onChange(of: volumeValue, perform: { value in
-      viewModel.volumeChanged(to: Float(value))
+    .onAppear(perform: viewModel.onAppear)
+    .onChange(of: focusedField, { oldValue, newValue in
+      viewModel.onFocusedSliderChanged(newValue)
     })
-    .onDisappear {
-      if let monitor {
-        NSEvent.removeMonitor(monitor)
-      }
-    }
+    Spacer()
   }
 }
 
-// MARK: - ContentView_Previews
+  // MARK: - ContentView_Previews
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {

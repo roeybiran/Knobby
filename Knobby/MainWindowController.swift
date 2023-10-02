@@ -40,6 +40,8 @@ class MainWindowController: NSWindowController {
     window.standardWindowButton(.miniaturizeButton)?.isHidden = true
     window.standardWindowButton(.zoomButton)?.isHidden = true
 
+    window.setContentSize(.init(width: 480, height: 135))
+
     guard let screen = window.screen else { assertionFailure(); return }
     let x = screen.frame.midX - (window.frame.width / 2)
     window.setFrameTopLeftPoint(NSPoint(x: x, y: screen.visibleFrame.maxY))

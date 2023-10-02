@@ -11,9 +11,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     statusItem.button?.image?.isTemplate = true
     statusItem.button?.target = self
     let menu = NSMenu()
-    menu.addItem(NSMenuItem(title: "Toggle", action: #selector(toggleApp), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Toggle Knobby", action: #selector(toggleApp), keyEquivalent: ""))
+    menu.addItem(NSMenuItem.separator())
+    menu.addItem(NSMenuItem(title: "Quit Knobby", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     statusItem.menu = menu
+    
+  #if DEBUG
     windowController.showWindow(nil)
+  #endif
   }
 
   func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -21,6 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+    toggleApp(nil)
     return false
  }
 

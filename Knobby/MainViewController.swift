@@ -27,8 +27,9 @@ final class MainViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let contentView = MainView(viewModel: viewModel).frame(idealWidth: 480, idealHeight: 120).fixedSize()
+    let contentView = MainView(viewModel: viewModel)
     let hostingView = NSHostingView(rootView: contentView)
+
     let fxView = NSVisualEffectView()
     fxView.material = .fullScreenUI
 
