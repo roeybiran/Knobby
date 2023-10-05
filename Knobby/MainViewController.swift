@@ -2,7 +2,10 @@ import Cocoa
 import SwiftUI
 
 final class MainViewController: NSViewController {
-  init() {
+  let viewModel: ViewModel
+
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -13,8 +16,6 @@ final class MainViewController: NSViewController {
   override func loadView() {
     view = NSView()
   }
-
-  private let viewModel = ViewModel()
 
   override func doCommand(by selector: Selector) {
     if selector == #selector(NSSavePanel.cancel(_:)){

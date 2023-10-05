@@ -33,8 +33,12 @@ final class ViewModel {
     }
   }
 
+  private let sound = NSSound(named: "Blow")
+
   func onVolumeSliderChange(to value: Float) {
     audioToolboxClient.setVolume(value)
+    sound?.stop()
+    sound?.play()
     volumeValue = audioToolboxClient.getVolume()
   }
 

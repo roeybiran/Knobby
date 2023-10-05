@@ -7,7 +7,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    statusItem.button?.image = NSImage(systemSymbolName: "slider.horizontal.2.square", accessibilityDescription: nil)
+    statusItem.button?.image = NSImage(named: "MenuBarExtra")
     statusItem.button?.image?.isTemplate = true
     statusItem.button?.target = self
     let menu = NSMenu()
@@ -15,10 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(NSMenuItem(title: "Quit Knobby", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     statusItem.menu = menu
-    
-  #if DEBUG
+
+    #if DEBUG
     windowController.showWindow(nil)
-  #endif
+    #endif
   }
 
   func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
     toggleApp(nil)
     return false
- }
+  }
 
   @objc func toggleApp(_ sender: Any?) {
     let isVisible = windowController.window?.isVisible ?? false

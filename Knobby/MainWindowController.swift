@@ -12,6 +12,8 @@ class MainWindowController: NSWindowController {
     window = panel
   }
 
+  private let viewModel = ViewModel()
+
   public override func windowDidLoad() {
     super.windowDidLoad()
 
@@ -24,7 +26,7 @@ class MainWindowController: NSWindowController {
     window.hidesOnDeactivate = false
     window.delegate = self
     window.level = .floating
-    window.contentViewController = MainViewController()
+    window.contentViewController = MainViewController(viewModel: viewModel)
     window.title = "Knobby"
     window.styleMask = [
       .closable,
@@ -85,6 +87,10 @@ extension MainWindowController: NSWindowDelegate, CAAnimationDelegate {
   func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
     super.close()
     NSApplication.shared.hide(nil)
+  }
+
+  func windowDidBecomeKey(_ notification: Notification) {
+    viewModel.onAppear()
   }
 
   func windowDidResignKey(_ notification: Notification) {

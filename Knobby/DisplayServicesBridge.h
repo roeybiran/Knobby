@@ -5,7 +5,6 @@
 #ifndef DisplayServicesBridge_h
 #define DisplayServicesBridge_h
 
-// DisplayServices private API used for getting/setting display brightness on Apple Silicon machines
 int DisplayServicesGetBrightness(CGDirectDisplayID display, float *brightness);
 int DisplayServicesSetBrightness(CGDirectDisplayID display, float brightness);
 

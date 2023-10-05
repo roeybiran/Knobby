@@ -111,13 +111,13 @@
 		CC18E80C2A5DE0CD0074EB30 /* Knobby */ = {
 			isa = PBXGroup;
 			children = (
-				CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */,
 				CC5F46862AC57A0900442DB8 /* Info.plist */,
 				CC2DC71E2A5F4026001A310B /* ViewModel.swift */,
 				CC18E8362A5DE0E40074EB30 /* MainView.swift */,
 				CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */,
 				CC18E83E2A5DE12F0074EB30 /* MainWindowController.swift */,
 				CC18E8402A5DE1590074EB30 /* MainViewController.swift */,
+				CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */,
 				CC2DC7202A5F4265001A310B /* Clients */,
 				CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */,
 				CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */,
