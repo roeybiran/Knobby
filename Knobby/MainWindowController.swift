@@ -86,7 +86,6 @@ class MainWindowController: NSWindowController {
 extension MainWindowController: NSWindowDelegate, CAAnimationDelegate {
   func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
     super.close()
-    NSApplication.shared.hide(nil)
   }
 
   func windowDidBecomeKey(_ notification: Notification) {
