@@ -1,5 +1,7 @@
 #  Knobby
 
+<video playsinline autoplay muted loop src="https://res.cloudinary.com/roeybiran/video/upload/v1696512226/knobby.mp4"/>
+
 ![App Icon](./AppIcon.png)
 
 This app exists because:
