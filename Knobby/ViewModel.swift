@@ -4,8 +4,6 @@ import Foundation
 final class ViewModel {
   let audioToolboxClient = AudioToolboxClient.liveValue
   let brightnessClient = BrightnessClient.liveValue
-  
-  let reservedKeys = Set<Character>(["h", "j", "k", "l"])
 
   private(set) var volumeValue = Float()
   private(set) var brightnessValue = Float()
@@ -56,21 +54,21 @@ final class ViewModel {
     focusedSlider = slider
   }
 
-  func onKeyPress(_ char: Character) {
+  func onKeyPress(_ keyCode: UInt16) {
     guard let current = getCurrentValue() else { return }
     var newValue = current
 
-    switch char {
-    case "l":
+    switch KeyCode(rawValue: keyCode) {
+    case .l:
       newValue += 0.1
-    case "h":
+    case .h:
       newValue -= 0.1
-    case "j":
+    case .j:
       newValue = 0
-    case "k":
+    case .k:
       newValue = 1
-    default:
-      break
+    case .none:
+      return
     }
 
     setCurrentValue(max(newValue, 0))

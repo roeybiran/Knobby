@@ -20,6 +20,7 @@
 		CC18E8412A5DE1590074EB30 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8402A5DE1590074EB30 /* MainViewController.swift */; };
 		CC2DC71F2A5F4026001A310B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2DC71E2A5F4026001A310B /* ViewModel.swift */; };
 		CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC88239D2ACADEBF002DD417 /* DisplayServices.framework */; };
+		CCBD2DF22ACF044100A394A6 /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBD2DF12ACF044100A394A6 /* KeyCode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		CC5F46862AC57A0900442DB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CC88239D2ACADEBF002DD417 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
 		CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisplayServicesBridge.h; sourceTree = "<group>"; };
+		CCBD2DF12ACF044100A394A6 /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			children = (
 				CC5F46862AC57A0900442DB8 /* Info.plist */,
 				CC2DC71E2A5F4026001A310B /* ViewModel.swift */,
+				CCBD2DF12ACF044100A394A6 /* KeyCode.swift */,
 				CC18E8362A5DE0E40074EB30 /* MainView.swift */,
 				CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */,
 				CC18E83E2A5DE12F0074EB30 /* MainWindowController.swift */,
@@ -294,6 +297,7 @@
 				CC18E83A2A5DE0E40074EB30 /* MainView.swift in Sources */,
 				CC18E83F2A5DE12F0074EB30 /* MainWindowController.swift in Sources */,
 				CC18E83C2A5DE0E40074EB30 /* BrightnessClient.swift in Sources */,
+				CCBD2DF22ACF044100A394A6 /* KeyCode.swift in Sources */,
 				CC18E80E2A5DE0CD0074EB30 /* AppDelegate.swift in Sources */,
 				CC18E83B2A5DE0E40074EB30 /* AudioToolboxClient.swift in Sources */,
 				CC2DC71F2A5F4026001A310B /* ViewModel.swift in Sources */,
@@ -469,7 +473,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -486,7 +490,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -509,7 +513,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -526,7 +530,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

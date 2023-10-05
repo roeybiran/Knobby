@@ -32,8 +32,9 @@ struct MainView: View {
     }
     .formStyle(.grouped)
     .onKeyPress(action: { press in
-      if viewModel.reservedKeys.contains(press.key.character) {
-        viewModel.onKeyPress(press.key.character)
+      guard let keycode = NSApplication.shared.currentEvent?.keyCode else { return .ignored }
+      if KeyCode(rawValue: keycode) != nil {
+        viewModel.onKeyPress(keycode)
         return .handled
       } else {
         return .ignored
