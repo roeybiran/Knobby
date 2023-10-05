@@ -1,6 +1,6 @@
 #  Knobby
 
-<video playsinline autoplay muted loop src="https://res.cloudinary.com/roeybiran/video/upload/v1696512226/knobby.mp4"></video>
+https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d8048c58548
 
 ![App Icon](./AppIcon.png)
 
