@@ -11,6 +11,8 @@ This app exists because:
 
 As of macOS Sonoma and on Apple Silicon machines, the only reliable way to programmatically control the display’s brightness is through the private DisplayServices framework, which necessitates removing the app’s sandbox. This is why this app can’t be distributed through the App Store.
 
+**Requires macOS Sonoma.**
+
 ## Demo
 
 https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d8048c58548
