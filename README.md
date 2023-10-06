@@ -19,4 +19,4 @@ https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d80
 
 ## Install
 
-- Download the [latest release](/releases/latest), mount the DMG and move the app bundle to your applications folder.
+- Download the latest release, mount the DMG and move the app bundle to your applications folder.
