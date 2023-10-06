@@ -1,6 +1,6 @@
 import Cocoa
 
-class MainWindowController: NSWindowController {
+final class MainWindowController: NSWindowController {
   convenience init() {
     self.init(windowNibName: "")
   }
@@ -12,7 +12,7 @@ class MainWindowController: NSWindowController {
     window = panel
   }
 
-  private let viewModel = ViewModel()
+  var viewModel: ViewModel!
 
   public override func windowDidLoad() {
     super.windowDidLoad()
@@ -26,7 +26,6 @@ class MainWindowController: NSWindowController {
     window.hidesOnDeactivate = false
     window.delegate = self
     window.level = .floating
-    window.contentViewController = MainViewController(viewModel: viewModel)
     window.title = "Knobby"
     window.styleMask = [
       .closable,
@@ -42,7 +41,7 @@ class MainWindowController: NSWindowController {
     window.standardWindowButton(.miniaturizeButton)?.isHidden = true
     window.standardWindowButton(.zoomButton)?.isHidden = true
 
-    window.setContentSize(.init(width: 480, height: 135))
+    window.setContentSize(.init(width: 480, height: 180))
 
     guard let screen = window.screen else { assertionFailure(); return }
     let x = screen.frame.midX - (window.frame.width / 2)
@@ -82,18 +81,19 @@ class MainWindowController: NSWindowController {
 
 }
 
-
-extension MainWindowController: NSWindowDelegate, CAAnimationDelegate {
-  func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-    super.close()
-  }
-
+extension MainWindowController: NSWindowDelegate {
   func windowDidBecomeKey(_ notification: Notification) {
     viewModel.onAppear()
   }
 
   func windowDidResignKey(_ notification: Notification) {
     animate(show: false)
+  }
+}
+
+extension MainWindowController: CAAnimationDelegate {
+  func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+    super.close()
   }
 }
 

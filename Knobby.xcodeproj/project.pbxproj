@@ -18,6 +18,7 @@
 		CC18E83C2A5DE0E40074EB30 /* BrightnessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8382A5DE0E40074EB30 /* BrightnessClient.swift */; };
 		CC18E83F2A5DE12F0074EB30 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E83E2A5DE12F0074EB30 /* MainWindowController.swift */; };
 		CC18E8412A5DE1590074EB30 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8402A5DE1590074EB30 /* MainViewController.swift */; };
+		CC1C72DA2ACFFD0D006EE4C3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC1C72D92ACFFD0D006EE4C3 /* README.md */; };
 		CC2DC71F2A5F4026001A310B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2DC71E2A5F4026001A310B /* ViewModel.swift */; };
 		CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC88239D2ACADEBF002DD417 /* DisplayServices.framework */; };
 		CCBD2DF22ACF044100A394A6 /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBD2DF12ACF044100A394A6 /* KeyCode.swift */; };
@@ -56,6 +57,7 @@
 		CC18E8382A5DE0E40074EB30 /* BrightnessClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessClient.swift; sourceTree = "<group>"; };
 		CC18E83E2A5DE12F0074EB30 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		CC18E8402A5DE1590074EB30 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		CC1C72D92ACFFD0D006EE4C3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		CC2DC71E2A5F4026001A310B /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		CC5F46862AC57A0900442DB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CC88239D2ACADEBF002DD417 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				CC18E8402A5DE1590074EB30 /* MainViewController.swift */,
 				CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */,
 				CC2DC7202A5F4265001A310B /* Clients */,
+				CC1C72D92ACFFD0D006EE4C3 /* README.md */,
 				CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */,
 				CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */,
 				CC18E8142A5DE0CD0074EB30 /* Knobby.entitlements */,
@@ -267,6 +270,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC1C72DA2ACFFD0D006EE4C3 /* README.md in Resources */,
 				CC18E8102A5DE0CD0074EB30 /* Assets.xcassets in Resources */,
 				CC18E8132A5DE0CD0074EB30 /* MainMenu.xib in Resources */,
 			);
@@ -473,7 +477,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -490,7 +494,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -513,7 +517,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -530,7 +534,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -1,10 +1,12 @@
 import Cocoa
+import SwiftUI
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
   lazy var windowController = MainWindowController()
 
   let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+  private let viewModel = ViewModel()
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     statusItem.button?.image = NSImage(named: "MenuBarExtra")
@@ -15,6 +17,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(NSMenuItem(title: "Quit Knobby", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     statusItem.menu = menu
+
+    let mainView = NSHostingView(rootView: MainView(viewModel: viewModel, statusItem: statusItem))
+    let mainViewController = MainViewController(contentView: mainView)
+    windowController.viewModel = viewModel
+    windowController.contentViewController = mainViewController
 
     #if DEBUG
     windowController.showWindow(nil)

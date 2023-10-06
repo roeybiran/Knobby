@@ -20,11 +20,3 @@ https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d80
 ## Install
 
 - Download the latest release, unzip, and move the bundle to your applications folder.
-
-## To Do
-
-- App icon
-- Settings:
-	- 	Launch at login
-	-	Showing/hiding the menu bar extra
-- Tests

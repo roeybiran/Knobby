@@ -2,10 +2,10 @@ import Cocoa
 import SwiftUI
 
 final class MainViewController: NSViewController {
-  let viewModel: ViewModel
+  private let contentView: NSView
 
-  init(viewModel: ViewModel) {
-    self.viewModel = viewModel
+  init(contentView: NSView) {
+    self.contentView = contentView
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -28,24 +28,21 @@ final class MainViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let contentView = MainView(viewModel: viewModel)
-    let hostingView = NSHostingView(rootView: contentView)
-
     let fxView = NSVisualEffectView()
     fxView.material = .fullScreenUI
 
     view.addSubview(fxView)
-    fxView.addSubview(hostingView)
+    fxView.addSubview(contentView)
 
     view.wantsLayer = true
     view.layer!.borderWidth = 0
     view.layer!.cornerRadius = 16
 
-    hostingView.translatesAutoresizingMaskIntoConstraints = false
-    hostingView.trailingAnchor.constraint(equalTo: fxView.trailingAnchor).isActive = true
-    hostingView.leadingAnchor.constraint(equalTo: fxView.leadingAnchor).isActive = true
-    hostingView.topAnchor.constraint(equalTo: fxView.topAnchor).isActive = true
-    hostingView.bottomAnchor.constraint(equalTo: fxView.bottomAnchor).isActive = true
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    contentView.trailingAnchor.constraint(equalTo: fxView.trailingAnchor).isActive = true
+    contentView.leadingAnchor.constraint(equalTo: fxView.leadingAnchor).isActive = true
+    contentView.topAnchor.constraint(equalTo: fxView.topAnchor).isActive = true
+    contentView.bottomAnchor.constraint(equalTo: fxView.bottomAnchor).isActive = true
 
     fxView.translatesAutoresizingMaskIntoConstraints = false
     fxView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
