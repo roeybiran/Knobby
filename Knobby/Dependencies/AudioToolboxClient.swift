@@ -1,31 +1,38 @@
 import AudioToolbox
 import Foundation
 
-// https://stackoverflow.com/a/27291862
+// https://github.com/Hammerspoon/hammerspoon/blob/56b5835dc1bf7bb430dfea3f1662379cccec0c82/extensions/audiodevice/libaudiodevice.m#L253
+// https://github.com/Hammerspoon/hammerspoon/blob/56b5835dc1bf7bb430dfea3f1662379cccec0c82/extensions/audiodevice/libaudiodevice.m#L1013
 
 struct AudioToolboxClient {
   var getVolume: () -> Float
   var setVolume: (_ volume: Float) -> Void
 
   static let liveValue: Self = {
-    var defaultOutputDeviceID = AudioDeviceID(0)
-    var defaultOutputDeviceIDSize = UInt32(MemoryLayout.size(ofValue: defaultOutputDeviceID))
-    var getDefaultOutputDevicePropertyAddress = AudioObjectPropertyAddress(
-      mSelector: kAudioHardwarePropertyDefaultOutputDevice,
-      mScope: kAudioObjectPropertyScopeGlobal,
-      mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMain))
 
-    let status = AudioObjectGetPropertyData(
-      AudioObjectID(kAudioObjectSystemObject),
-      &getDefaultOutputDevicePropertyAddress,
-      0,
-      nil,
-      &defaultOutputDeviceIDSize,
-      &defaultOutputDeviceID)
+    func getDefaultDevice() -> AudioDeviceID {
+      var propertyAddress = AudioObjectPropertyAddress(
+        mSelector: kAudioHardwarePropertyDefaultOutputDevice,
+        mScope: kAudioObjectPropertyScopeOutput,
+        mElement: kAudioObjectPropertyElementMain
+      )
+
+      var value = AudioDeviceID()
+      var valueSIze = UInt32(MemoryLayout.size(ofValue: value))
+      let status = AudioObjectGetPropertyData(
+        UInt32(kAudioObjectSystemObject),
+        &propertyAddress,
+        0,
+        nil,
+        &valueSIze,
+        &value)
+
+      return value
+    }
 
     return Self(
       getVolume: {
-        var volume = Float(0.0)
+        var volume = Float32(0.0)
         var volumeSize = UInt32(MemoryLayout.size(ofValue: volume))
 
         var volumePropertyAddress = AudioObjectPropertyAddress(
@@ -34,7 +41,7 @@ struct AudioToolboxClient {
           mElement: kAudioObjectPropertyElementMain)
 
         let status = AudioObjectGetPropertyData(
-          defaultOutputDeviceID,
+          getDefaultDevice(),
           &volumePropertyAddress,
           0,
           nil,
@@ -53,7 +60,7 @@ struct AudioToolboxClient {
           mElement: kAudioObjectPropertyElementMain)
 
         let status = AudioObjectSetPropertyData(
-          defaultOutputDeviceID,
+          getDefaultDevice(),
           &volumePropertyAddress,
           0,
           nil,

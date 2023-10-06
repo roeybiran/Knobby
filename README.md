@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://github.com/roeybiran/Knobby/assets/37002381/6f1d3a48-6dea-4e96-b82e-59cb02b36082" alt="Knobby’s app icon" style="display:block" />
 <h1>Knobby</h1>
-<p>A tiny app to control your Mac’s volume and screen brightness.</p>
+<p>A tiny app to control your Mac’s volume and screen brightness with Vim key bindings.</p>
 </div>
 
 This app exists because:
@@ -19,4 +19,12 @@ https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d80
 
 ## Install
 
-- Download the latest release, unzip, and move the bundle to your applications folder.
+- Download the latest release, mount the DMG and move the app bundle to your applications folder.
+
+## Usage
+
+- To activate this app from anywhere using a global keyboard shortcut, and without taking focus off the current app, use an app like [Karabiner–Elements](https://github.com/pqrs-org/Karabiner-Elements) and configure your desired keyboard shortcut to run the following shell script:
+
+```
+open -gja Knobby
+```
