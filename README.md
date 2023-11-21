@@ -20,3 +20,11 @@ https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d80
 ## Install
 
 - Download the latest release, mount the DMG and move the app bundle to your applications folder.
+
+## Usage
+
+- To activate this app from anywhere using a global keyboard shortcut, and without taking focus off the current app, use an app like [Karabiner–Elements](https://github.com/pqrs-org/Karabiner-Elements) and configure your desired keyboard shortcut to run the following shell script:
+
+```
+open -gja Knobby
+```
