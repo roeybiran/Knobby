@@ -1,4 +1,6 @@
 import Foundation
+import Carbon
+import SwiftUI
 
 @Observable
 final class ViewModel {
@@ -7,7 +9,8 @@ final class ViewModel {
 
   private(set) var volumeValue = Float()
   private(set) var brightnessValue = Float()
-  private(set) var focusedSlider: MainView.FocusedSlider?
+  private(set) var focusedSlider: ContentView.FocusedSlider?
+  var isVisible = false
 
   private func getCurrentValue() -> Float? {
     switch focusedSlider {
@@ -31,12 +34,8 @@ final class ViewModel {
     }
   }
 
-  private let sound = NSSound(named: "Blow")
-
   func onVolumeSliderChange(to value: Float) {
     audioToolboxClient.setVolume(value)
-    sound?.stop()
-    sound?.play()
     volumeValue = audioToolboxClient.getVolume()
   }
 
@@ -50,27 +49,28 @@ final class ViewModel {
     brightnessValue = brightnessClient.getBrightness()
   }
 
-  func onFocusedSliderChanged(_ slider: MainView.FocusedSlider?) {
+  func onFocusedSliderChanged(_ slider: ContentView.FocusedSlider?) {
     focusedSlider = slider
   }
 
-  func onKeyPress(_ keyCode: UInt16) {
-    guard let current = getCurrentValue() else { return }
-    var newValue = current
-
-    switch KeyCode(rawValue: keyCode) {
-    case .l:
+  func onKeyPress(_ keyCode: UInt16) -> KeyPress.Result {
+    var newValue = getCurrentValue() ?? 0
+    switch Int(keyCode) {
+    case kVK_ANSI_L:
       newValue += 0.1
-    case .h:
+    case kVK_ANSI_H:
       newValue -= 0.1
-    case .j:
+    case kVK_ANSI_J:
       newValue = 0
-    case .k:
+    case kVK_ANSI_K:
       newValue = 1
-    case .none:
-      return
+    case kVK_Escape:
+      isVisible = false
+    default:
+      return .ignored
     }
 
     setCurrentValue(max(newValue, 0))
+    return .handled
   }
 }
