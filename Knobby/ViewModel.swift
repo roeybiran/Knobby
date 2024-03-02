@@ -10,7 +10,7 @@ final class ViewModel {
   private(set) var volumeValue = Float()
   private(set) var brightnessValue = Float()
   private(set) var focusedSlider: ContentView.FocusedSlider?
-  var isVisible = false
+  private(set) var isVisible = false
 
   private func getCurrentValue() -> Float? {
     switch focusedSlider {
@@ -47,10 +47,19 @@ final class ViewModel {
   func onAppear() {
     volumeValue = audioToolboxClient.getVolume()
     brightnessValue = brightnessClient.getBrightness()
+    focusedSlider = .volume
   }
 
   func onFocusedSliderChanged(_ slider: ContentView.FocusedSlider?) {
     focusedSlider = slider
+  }
+
+  func onToggleApp() {
+    isVisible.toggle()
+  }
+
+  func onResignKey() {
+    isVisible = false
   }
 
   func onKeyPress(_ keyCode: UInt16) -> KeyPress.Result {

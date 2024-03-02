@@ -1,10 +1,25 @@
 import Cocoa
 import SwiftUI
 
-//https://cindori.com/developer/floating-panel
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-  private lazy var mainWindow = Panel()
+  private let mainWindow: Panel = {
+    let panel = Panel()
+    panel.hidesOnDeactivate = false
+    panel.level = .floating
+    panel.title = "Knobby"
+    panel.styleMask = [.closable, .borderless, .nonactivatingPanel]
+    panel.hasShadow = false
+    panel.backgroundColor = .clear
+    panel.titlebarAppearsTransparent = true
+    panel.titleVisibility = .hidden
+    panel.standardWindowButton(.closeButton)?.isHidden = true
+    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
+    panel.standardWindowButton(.zoomButton)?.isHidden = true
+    panel.isFloatingPanel = true
+    panel.becomesKeyOnlyIfNeeded = false
+    return panel
+  }()
 
   private let statusItem: NSStatusItem = {
     let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -34,13 +49,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ])
     mainWindow.delegate = self
     mainWindow.contentView = contentView
-
-    #if DEBUG
-    toggleApp(nil)
-    #endif
+    NSApplication.shared.activate()
   }
 
-  func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { true }
+  func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+    true
+  }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
     toggleApp(nil)
@@ -48,24 +62,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   @objc func toggleApp(_ sender: Any?) {
+    viewModel.onToggleApp()
     if viewModel.isVisible {
-      viewModel.isVisible = false
-    } else {
+      mainWindow.setFrame(NSScreen.main?.visibleFrame ?? .zero, display: true)
       mainWindow.makeKeyAndOrderFront(nil)
-      viewModel.isVisible = true
     }
   }
 }
 
-
 extension AppDelegate: NSWindowDelegate {
-  func windowDidBecomeKey(_ notification: Notification) {
-    guard let window = notification.object as? NSWindow else { return assertionFailure() }
-    window.setFrame(NSScreen.main?.visibleFrame ?? .zero, display: true)
-    viewModel.onAppear()
-  }
-
   func windowDidResignKey(_ notification: Notification) {
-    viewModel.isVisible = false
+    viewModel.onResignKey()
   }
 }

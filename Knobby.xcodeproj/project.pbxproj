@@ -60,7 +60,7 @@
 		CC5624132B6EEDAE00A09E78 /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
 		CC5F46862AC57A0900442DB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CC88239D2ACADEBF002DD417 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
-		CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisplayServicesBridge.h; sourceTree = "<group>"; };
+		CC8823A12ACADF01002DD417 /* Knobby-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Knobby-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,7 @@
 				CC18E8362A5DE0E40074EB30 /* ContentView.swift */,
 				CC153EC42B91F74900A27608 /* VisualEffectView.swift */,
 				CC5624132B6EEDAE00A09E78 /* Panel.swift */,
-				CC8823A12ACADF01002DD417 /* DisplayServicesBridge.h */,
+				CC8823A12ACADF01002DD417 /* Knobby-Bridging-Header.h */,
 				CC1C72D92ACFFD0D006EE4C3 /* README.md */,
 				CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */,
 				CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */,
@@ -475,7 +475,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -492,11 +492,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = Knobby/DisplayServicesBridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Knobby-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -515,7 +515,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -532,11 +532,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = Knobby/DisplayServicesBridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Knobby-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

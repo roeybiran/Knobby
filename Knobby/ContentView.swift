@@ -65,10 +65,14 @@ struct ContentView: View {
       }
       .onAppear {
         viewModel.onAppear()
-        focusedField = .volume
       }
       .onChange(of: focusedField) {
         viewModel.onFocusedSliderChanged($1)
+      }
+      .onChange(of: viewModel.isVisible) {
+        if !viewModel.isVisible && isPopoverShown {
+          isPopoverShown = false
+        }
       }
       .formStyle(.grouped)
     }
