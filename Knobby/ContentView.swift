@@ -8,7 +8,7 @@ private let kWidth = 480.0
 
 struct ContentView: View {
   @Bindable var viewModel: ViewModel
-  @FocusState private var focusedField: FocusedSlider?
+  @FocusState private var focusedSlider: FocusedSlider?
   @State private var isPopoverShown = false
   @State private var offset = -kHeight
   let statusItem: NSStatusItem
@@ -30,7 +30,7 @@ struct ContentView: View {
             Image(systemName: "speaker.wave.3.fill")
               .accessibilityLabel("Volume")
           }
-          .focused($focusedField, equals: .volume)
+          .focused($focusedSlider, equals: .volume)
         Slider(
           value: .init(
             get: { viewModel.brightnessValue },
@@ -39,7 +39,7 @@ struct ContentView: View {
             Image(systemName: "sun.max.fill")
               .accessibilityLabel("Brightness")
           }
-          .focused($focusedField, equals: .brightness)
+          .focused($focusedSlider, equals: .brightness)
 
         Button {
           isPopoverShown.toggle()
@@ -70,7 +70,7 @@ struct ContentView: View {
       .onAppear {
         viewModel.onAppear()
       }
-      .onChange(of: focusedField) {
+      .onChange(of: focusedSlider) {
         viewModel.onFocusedSliderChanged($1)
       }
       .onChange(of: viewModel.isVisible) {
@@ -78,6 +78,7 @@ struct ContentView: View {
           offset = viewModel.isVisible ? .zero : -kHeight
         } completion: {
           if !viewModel.isVisible {
+            focusedSlider = .volume
             NSApplication.shared.keyWindow?.close()
           }
         }
