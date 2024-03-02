@@ -30,8 +30,8 @@
             filePath = "Knobby/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "onBrightnessSliderChange(to:)"
             landmarkType = "7">
          </BreakpointContent>

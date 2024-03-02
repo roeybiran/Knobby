@@ -34,6 +34,10 @@ final class ViewModel {
     }
   }
 
+  private func dismiss() {
+    isVisible = false
+  }
+
   func onVolumeSliderChange(to value: Float) {
     audioToolboxClient.setVolume(value)
     volumeValue = audioToolboxClient.getVolume()
@@ -47,7 +51,6 @@ final class ViewModel {
   func onAppear() {
     volumeValue = audioToolboxClient.getVolume()
     brightnessValue = brightnessClient.getBrightness()
-    focusedSlider = .volume
   }
 
   func onFocusedSliderChanged(_ slider: ContentView.FocusedSlider?) {
@@ -55,11 +58,15 @@ final class ViewModel {
   }
 
   func onToggleApp() {
-    isVisible.toggle()
+    if isVisible {
+      dismiss()
+    } else {
+      isVisible = true
+    }
   }
 
   func onResignKey() {
-    isVisible = false
+    dismiss()
   }
 
   func onKeyPress(_ keyCode: UInt16) -> KeyPress.Result {
@@ -74,7 +81,8 @@ final class ViewModel {
     case kVK_ANSI_K:
       newValue = 1
     case kVK_Escape:
-      isVisible = false
+      dismiss()
+      return .handled
     default:
       return .ignored
     }
