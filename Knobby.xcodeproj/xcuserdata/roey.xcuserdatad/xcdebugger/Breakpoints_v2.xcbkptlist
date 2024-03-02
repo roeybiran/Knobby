@@ -55,54 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5315083D-140C-4B30-ABFD-E379BFF4946A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Knobby/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "toggleApp(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5315083D-140C-4B30-ABFD-E379BFF4946A - 4bb9b2cc9a13a698"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Knobby.AppDelegate.toggleApp(Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "Knobby"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/roey/Library/CloudStorage/Dropbox/projects/code/Knobby/Knobby/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  uuid = "5315083D-140C-4B30-ABFD-E379BFF4946A - 4bb9b2cc9a13a75a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Knobby.AppDelegate.toggleApp(Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "Knobby"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/roey/Library/CloudStorage/Dropbox/projects/code/Knobby/Knobby/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "76">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E0C7D80E-DEAD-43CB-AC53-87952551FD07"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -110,10 +62,10 @@
             filePath = "Knobby/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "toggleApp(_:)"
-            landmarkType = "7">
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
