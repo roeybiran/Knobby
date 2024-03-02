@@ -49,7 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ])
     mainWindow.delegate = self
     mainWindow.contentView = contentView
-    NSApplication.shared.activate()
   }
 
   func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

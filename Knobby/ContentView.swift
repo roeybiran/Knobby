@@ -3,10 +3,14 @@ import ServiceManagement
 
 // MARK: - ContentView
 
+private let kHeight = 160.0
+private let kWidth = 480.0
+
 struct ContentView: View {
   @Bindable var viewModel: ViewModel
   @FocusState private var focusedField: FocusedSlider?
   @State private var isPopoverShown = false
+  @State private var offset = -kHeight
   let statusItem: NSStatusItem
 
   enum FocusedSlider: Equatable {
@@ -70,16 +74,22 @@ struct ContentView: View {
         viewModel.onFocusedSliderChanged($1)
       }
       .onChange(of: viewModel.isVisible) {
+        withAnimation(.bouncy) {
+          offset = viewModel.isVisible ? .zero : -kHeight
+        } completion: {
+          if !viewModel.isVisible {
+            NSApplication.shared.keyWindow?.close()
+          }
+        }
         if !viewModel.isVisible && isPopoverShown {
           isPopoverShown = false
         }
       }
       .formStyle(.grouped)
     }
-    .frame(width: 480, height: 160)
+    .frame(width: kWidth, height: kHeight)
     .clipShape(.rect(cornerRadius: 8, style: .circular))
-    .offset(x: 0, y: viewModel.isVisible ? 0 : -160)
-    .animation(.bouncy, value: viewModel.isVisible)
+    .offset(x: 0, y: offset)
   }
 }
 
