@@ -67,9 +67,6 @@ struct ContentView: View {
         guard let keycode = NSApplication.shared.currentEvent?.keyCode else { return .ignored }
         return viewModel.onKeyPress(keycode)
       }
-      .onAppear {
-        viewModel.onAppear()
-      }
       .onChange(of: focusedSlider) {
         viewModel.onFocusedSliderChanged($1)
       }
