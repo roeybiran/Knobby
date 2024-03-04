@@ -48,11 +48,6 @@ final class ViewModel {
     brightnessValue = brightnessClient.getBrightness()
   }
 
-  func onAppear() {
-    volumeValue = audioToolboxClient.getVolume()
-    brightnessValue = brightnessClient.getBrightness()
-  }
-
   func onFocusedSliderChanged(_ slider: ContentView.FocusedSlider?) {
     focusedSlider = slider
   }
@@ -62,6 +57,8 @@ final class ViewModel {
       dismiss()
     } else {
       isVisible = true
+      volumeValue = audioToolboxClient.getVolume()
+      brightnessValue = brightnessClient.getBrightness()
     }
   }
 
