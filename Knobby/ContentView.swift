@@ -1,98 +1,65 @@
 import SwiftUI
-import ServiceManagement
-
-// MARK: - ContentView
-
-private let kHeight = 160.0
-private let kWidth = 480.0
 
 struct ContentView: View {
-  @Bindable var viewModel: ViewModel
-  @FocusState private var focusedSlider: FocusedSlider?
-  @State private var isPopoverShown = false
-  @State private var offset = -kHeight
-  let statusItem: NSStatusItem
+  var viewModel: ViewModel
+  @State private var knobbyShown = false
 
-  enum FocusedSlider: Equatable {
-    case volume
-    case brightness
+  func notchWidth() -> CGFloat {
+    let left = NSScreen.main?.auxiliaryTopLeftArea?.width
+    let right = NSScreen.main?.auxiliaryTopRightArea?.width
+    let width = NSScreen.main?.visibleFrame.width
+    if let left, let right, let width {
+      return (width - left - right - 8)
+    } else {
+      return 0
+    }
   }
 
-  var body: some View {
-    ZStack {
-      VisualEffectView()
-      Form {
-        Slider(
-          value: .init(
-            get: { viewModel.volumeValue },
-            set: { viewModel.onVolumeSliderChange(to: $0) }
-          ), in: 0...1, step: 0.1) {
-            Image(systemName: "speaker.wave.3.fill")
-              .accessibilityLabel("Volume")
-          }
-          .focused($focusedSlider, equals: .volume)
-        Slider(
-          value: .init(
-            get: { viewModel.brightnessValue },
-            set: { viewModel.onBrightnessSliderChange(to: $0) }
-          ), in: 0...1, step: 0.1) {
-            Image(systemName: "sun.max.fill")
-              .accessibilityLabel("Brightness")
-          }
-          .focused($focusedSlider, equals: .brightness)
-
-        Button {
-          isPopoverShown.toggle()
-        } label: {
-          Image(systemName: "gear")
-        }
-        .buttonStyle(.borderless)
-        .popover(isPresented: $isPopoverShown, arrowEdge: .bottom) {
-          Form {
-            Toggle("Launch at Login", isOn: Binding(get: {
-              SMAppService.mainApp.status == .enabled
-            }, set: { isOn in
-              try? isOn ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
-            }))
-            Toggle("Show Menu Bar Extra", isOn: Binding(get: {
-              statusItem.isVisible
-            }, set: { isOn in
-              statusItem.isVisible = isOn
-            }))
-          }.formStyle(.grouped)
-        }
-      }
-      .foregroundColor(.gray)
-      .onKeyPress { _ in
-        guard let keycode = NSApplication.shared.currentEvent?.keyCode else { return .ignored }
-        return viewModel.onKeyPress(keycode)
-      }
-      .onChange(of: focusedSlider) {
-        viewModel.onFocusedSliderChanged($1)
-      }
-      .onChange(of: viewModel.isVisible) {
-        withAnimation(.bouncy) {
-          offset = viewModel.isVisible ? .zero : -kHeight
-        } completion: {
-          if !viewModel.isVisible {
-            focusedSlider = .volume
-            NSApplication.shared.keyWindow?.close()
-          }
-        }
-        if !viewModel.isVisible && isPopoverShown {
-          isPopoverShown = false
-        }
-      }
-      .formStyle(.grouped)
+  func notchHeight() -> CGFloat {
+    if let height = NSScreen.main?.auxiliaryTopLeftArea?.height {
+      return height
+    } else {
+      return 0
     }
-    .frame(width: kWidth, height: kHeight)
-    .clipShape(.rect(cornerRadius: 8, style: .circular))
-    .offset(x: 0, y: offset)
+  }
+
+  //
+  var body: some View {
+    VStack {
+      Spacer().frame(minHeight: notchHeight())
+      VStack {
+        CustomSlider(value: Double(viewModel.volumeValue), icon: "speaker.wave.2.fill", label: "Volume")
+          .opacity(viewModel.focusedSlider == .volume ? 1 : 0.4)
+          .frame(height: 8)
+        CustomSlider(value: Double(viewModel.brightnessValue), icon: "sun.max.fill", label: "Brightness")
+          .opacity(viewModel.focusedSlider == .brightness ? 1 : 0.4)
+          .frame(height: 8)
+      }
+      .foregroundColor(.white)
+      .opacity(knobbyShown ? 1 : 0)
+      .animation(.easeInOut, value: viewModel.focusedSlider)
+    }
+    .padding()
+    .frame(width: .knobbyWidth, height: .knobbyHeight)
+    .background(UnevenRoundedRectangle(bottomLeadingRadius: 10, bottomTrailingRadius: 10).fill(.black))
+    .scaleEffect(x: knobbyShown ? 1 : notchWidth() / .knobbyWidth, y: knobbyShown ? 1 : notchHeight() / .knobbyHeight, anchor: .top)
+    .onChange(of: viewModel.isVisible) {
+      withAnimation(.snappy) {
+        knobbyShown = viewModel.isVisible
+        if !viewModel.isVisible {
+          NSApplication.shared.keyWindow?.resignKey()
+          NSApplication.shared.keyWindow?.resignMain()
+        }
+      } completion: {
+        if !viewModel.isVisible {
+          NSApplication.shared.windows.first(where: { $0.identifier == .main })?.close()
+        }
+      }
+    }
   }
 }
 
 // MARK: - ContentView_Previews
 #Preview {
-  ContentView(viewModel: .init(), statusItem: .init())
+  ContentView(viewModel: .init())
 }
-

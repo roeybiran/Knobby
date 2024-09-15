@@ -3,65 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC153EC52B91F74900A27608 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC153EC42B91F74900A27608 /* VisualEffectView.swift */; };
-		CC18E80E2A5DE0CD0074EB30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */; };
-		CC18E8102A5DE0CD0074EB30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */; };
-		CC18E8132A5DE0CD0074EB30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */; };
-		CC18E81E2A5DE0CE0074EB30 /* KnobbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */; };
-		CC18E8282A5DE0CE0074EB30 /* KnobbyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */; };
-		CC18E82A2A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */; };
-		CC18E83A2A5DE0E40074EB30 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8362A5DE0E40074EB30 /* ContentView.swift */; };
-		CC18E83B2A5DE0E40074EB30 /* AudioToolboxClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8372A5DE0E40074EB30 /* AudioToolboxClient.swift */; };
-		CC18E83C2A5DE0E40074EB30 /* BrightnessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC18E8382A5DE0E40074EB30 /* BrightnessClient.swift */; };
-		CC1C72DA2ACFFD0D006EE4C3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC1C72D92ACFFD0D006EE4C3 /* README.md */; };
-		CC2DC71F2A5F4026001A310B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2DC71E2A5F4026001A310B /* ViewModel.swift */; };
-		CC5624142B6EEDAE00A09E78 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5624132B6EEDAE00A09E78 /* Panel.swift */; };
 		CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC88239D2ACADEBF002DD417 /* DisplayServices.framework */; };
+		CC8DEFD82CE7BB10003A1BB2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC8DEFCA2CE7BB10003A1BB2 /* README.md */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		CC18E81A2A5DE0CE0074EB30 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CC18E8022A5DE0CD0074EB30 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CC18E8092A5DE0CD0074EB30;
-			remoteInfo = Knobby;
-		};
-		CC18E8242A5DE0CE0074EB30 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CC18E8022A5DE0CD0074EB30 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CC18E8092A5DE0CD0074EB30;
-			remoteInfo = Knobby;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		CC153EC42B91F74900A27608 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		CC18E80A2A5DE0CD0074EB30 /* Knobby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CC18E8122A5DE0CD0074EB30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		CC18E8142A5DE0CD0074EB30 /* Knobby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Knobby.entitlements; sourceTree = "<group>"; };
-		CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyTests.swift; sourceTree = "<group>"; };
-		CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyUITests.swift; sourceTree = "<group>"; };
-		CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobbyUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		CC18E8362A5DE0E40074EB30 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CC18E8372A5DE0E40074EB30 /* AudioToolboxClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioToolboxClient.swift; sourceTree = "<group>"; };
-		CC18E8382A5DE0E40074EB30 /* BrightnessClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessClient.swift; sourceTree = "<group>"; };
-		CC1C72D92ACFFD0D006EE4C3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		CC2DC71E2A5F4026001A310B /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		CC5624132B6EEDAE00A09E78 /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
-		CC5F46862AC57A0900442DB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CC88239D2ACADEBF002DD417 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
-		CC8823A12ACADF01002DD417 /* Knobby-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Knobby-Bridging-Header.h"; sourceTree = "<group>"; };
+		CC8DEFCA2CE7BB10003A1BB2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CCC8556C2CB54CA80065B531 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Info.plist,
+			);
+			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CCC855612CB54CA80065B531 /* Knobby */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CCC8556C2CB54CA80065B531 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Knobby; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CC18E8072A5DE0CD0074EB30 /* Frameworks */ = {
@@ -72,31 +40,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC18E8162A5DE0CE0074EB30 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC18E8202A5DE0CE0074EB30 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		CC18E8012A5DE0CD0074EB30 = {
 			isa = PBXGroup;
 			children = (
-				CC18E80C2A5DE0CD0074EB30 /* Knobby */,
-				CC18E81C2A5DE0CE0074EB30 /* KnobbyTests */,
-				CC18E8262A5DE0CE0074EB30 /* KnobbyUITests */,
+				CCC855612CB54CA80065B531 /* Knobby */,
 				CC18E80B2A5DE0CD0074EB30 /* Products */,
 				CC88239C2ACADEBE002DD417 /* Frameworks */,
+				CC8DEFCA2CE7BB10003A1BB2 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,55 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				CC18E80A2A5DE0CD0074EB30 /* Knobby.app */,
-				CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */,
-				CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CC18E80C2A5DE0CD0074EB30 /* Knobby */ = {
-			isa = PBXGroup;
-			children = (
-				CC2DC7202A5F4265001A310B /* Dependencies */,
-				CC18E80D2A5DE0CD0074EB30 /* AppDelegate.swift */,
-				CC2DC71E2A5F4026001A310B /* ViewModel.swift */,
-				CC18E8362A5DE0E40074EB30 /* ContentView.swift */,
-				CC153EC42B91F74900A27608 /* VisualEffectView.swift */,
-				CC5624132B6EEDAE00A09E78 /* Panel.swift */,
-				CC8823A12ACADF01002DD417 /* Knobby-Bridging-Header.h */,
-				CC1C72D92ACFFD0D006EE4C3 /* README.md */,
-				CC18E80F2A5DE0CD0074EB30 /* Assets.xcassets */,
-				CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */,
-				CC18E8142A5DE0CD0074EB30 /* Knobby.entitlements */,
-				CC5F46862AC57A0900442DB8 /* Info.plist */,
-			);
-			path = Knobby;
-			sourceTree = "<group>";
-		};
-		CC18E81C2A5DE0CE0074EB30 /* KnobbyTests */ = {
-			isa = PBXGroup;
-			children = (
-				CC18E81D2A5DE0CE0074EB30 /* KnobbyTests.swift */,
-			);
-			path = KnobbyTests;
-			sourceTree = "<group>";
-		};
-		CC18E8262A5DE0CE0074EB30 /* KnobbyUITests */ = {
-			isa = PBXGroup;
-			children = (
-				CC18E8272A5DE0CE0074EB30 /* KnobbyUITests.swift */,
-				CC18E8292A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift */,
-			);
-			path = KnobbyUITests;
-			sourceTree = "<group>";
-		};
-		CC2DC7202A5F4265001A310B /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				CC18E8372A5DE0E40074EB30 /* AudioToolboxClient.swift */,
-				CC18E8382A5DE0E40074EB30 /* BrightnessClient.swift */,
-			);
-			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		CC88239C2ACADEBE002DD417 /* Frameworks */ = {
@@ -178,46 +84,13 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				CCC855612CB54CA80065B531 /* Knobby */,
+			);
 			name = Knobby;
 			productName = Knobby;
 			productReference = CC18E80A2A5DE0CD0074EB30 /* Knobby.app */;
 			productType = "com.apple.product-type.application";
-		};
-		CC18E8182A5DE0CE0074EB30 /* KnobbyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC18E8302A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyTests" */;
-			buildPhases = (
-				CC18E8152A5DE0CE0074EB30 /* Sources */,
-				CC18E8162A5DE0CE0074EB30 /* Frameworks */,
-				CC18E8172A5DE0CE0074EB30 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CC18E81B2A5DE0CE0074EB30 /* PBXTargetDependency */,
-			);
-			name = KnobbyTests;
-			productName = KnobbyTests;
-			productReference = CC18E8192A5DE0CE0074EB30 /* KnobbyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		CC18E8222A5DE0CE0074EB30 /* KnobbyUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC18E8332A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyUITests" */;
-			buildPhases = (
-				CC18E81F2A5DE0CE0074EB30 /* Sources */,
-				CC18E8202A5DE0CE0074EB30 /* Frameworks */,
-				CC18E8212A5DE0CE0074EB30 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CC18E8252A5DE0CE0074EB30 /* PBXTargetDependency */,
-			);
-			name = KnobbyUITests;
-			productName = KnobbyUITests;
-			productReference = CC18E8232A5DE0CE0074EB30 /* KnobbyUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -227,18 +100,10 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					CC18E8092A5DE0CD0074EB30 = {
 						CreatedOnToolsVersion = 14.3.1;
-					};
-					CC18E8182A5DE0CE0074EB30 = {
-						CreatedOnToolsVersion = 14.3.1;
-						TestTargetID = CC18E8092A5DE0CD0074EB30;
-					};
-					CC18E8222A5DE0CE0074EB30 = {
-						CreatedOnToolsVersion = 14.3.1;
-						TestTargetID = CC18E8092A5DE0CD0074EB30;
 					};
 				};
 			};
@@ -256,8 +121,6 @@
 			projectRoot = "";
 			targets = (
 				CC18E8092A5DE0CD0074EB30 /* Knobby */,
-				CC18E8182A5DE0CE0074EB30 /* KnobbyTests */,
-				CC18E8222A5DE0CE0074EB30 /* KnobbyUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -267,23 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC1C72DA2ACFFD0D006EE4C3 /* README.md in Resources */,
-				CC18E8102A5DE0CD0074EB30 /* Assets.xcassets in Resources */,
-				CC18E8132A5DE0CD0074EB30 /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC18E8172A5DE0CE0074EB30 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC18E8212A5DE0CE0074EB30 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				CC8DEFD82CE7BB10003A1BB2 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,64 +141,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC18E83A2A5DE0E40074EB30 /* ContentView.swift in Sources */,
-				CC18E83C2A5DE0E40074EB30 /* BrightnessClient.swift in Sources */,
-				CC18E80E2A5DE0CD0074EB30 /* AppDelegate.swift in Sources */,
-				CC18E83B2A5DE0E40074EB30 /* AudioToolboxClient.swift in Sources */,
-				CC153EC52B91F74900A27608 /* VisualEffectView.swift in Sources */,
-				CC2DC71F2A5F4026001A310B /* ViewModel.swift in Sources */,
-				CC5624142B6EEDAE00A09E78 /* Panel.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC18E8152A5DE0CE0074EB30 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC18E81E2A5DE0CE0074EB30 /* KnobbyTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC18E81F2A5DE0CE0074EB30 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC18E8282A5DE0CE0074EB30 /* KnobbyUITests.swift in Sources */,
-				CC18E82A2A5DE0CE0074EB30 /* KnobbyUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		CC18E81B2A5DE0CE0074EB30 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
-			targetProxy = CC18E81A2A5DE0CE0074EB30 /* PBXContainerItemProxy */;
-		};
-		CC18E8252A5DE0CE0074EB30 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
-			targetProxy = CC18E8242A5DE0CE0074EB30 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		CC18E8112A5DE0CD0074EB30 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CC18E8122A5DE0CD0074EB30 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CC18E82B2A5DE0CE0074EB30 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -414,6 +214,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -470,7 +271,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Knobby/Knobby.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Knobby/Resources/Knobby.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -480,7 +281,7 @@
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Knobby/Info.plist;
+				INFOPLIST_FILE = Knobby/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Knobby;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -496,7 +297,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Knobby-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Resources/Knobby-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,7 +311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Knobby/Knobby.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Knobby/Resources/Knobby.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -520,7 +321,7 @@
 				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Knobby/Info.plist;
+				INFOPLIST_FILE = Knobby/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Knobby;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -536,84 +337,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Knobby-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Resources/Knobby-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
-			};
-			name = Release;
-		};
-		CC18E8312A5DE0CE0074EB30 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
-			};
-			name = Debug;
-		};
-		CC18E8322A5DE0CE0074EB30 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
-			};
-			name = Release;
-		};
-		CC18E8342A5DE0CE0074EB30 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = Knobby;
-			};
-			name = Debug;
-		};
-		CC18E8352A5DE0CE0074EB30 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = Knobby;
 			};
 			name = Release;
 		};
@@ -634,24 +363,6 @@
 			buildConfigurations = (
 				CC18E82E2A5DE0CE0074EB30 /* Debug */,
 				CC18E82F2A5DE0CE0074EB30 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC18E8302A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC18E8312A5DE0CE0074EB30 /* Debug */,
-				CC18E8322A5DE0CE0074EB30 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC18E8332A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "KnobbyUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC18E8342A5DE0CE0074EB30 /* Debug */,
-				CC18E8352A5DE0CE0074EB30 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
