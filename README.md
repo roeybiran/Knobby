@@ -12,7 +12,7 @@ Note: As of macOS Sonoma and on Apple Silicon machines, the only reliable way to
 
 ## Demo
 
-https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d8048c58548
+https://github.com/user-attachments/assets/38275fc1-d977-4ad0-acde-6043d7e1307f
 
 ## Install
 
