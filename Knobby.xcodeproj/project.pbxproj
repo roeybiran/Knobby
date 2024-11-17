@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC88239D2ACADEBF002DD417 /* DisplayServices.framework */; };
 		CC8DEFD82CE7BB10003A1BB2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC8DEFCA2CE7BB10003A1BB2 /* README.md */; };
-		CC8DEFE42CE8BB7E003A1BB2 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CC8DEFE32CE8BB7E003A1BB2 /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +37,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */,
-				CC8DEFE42CE8BB7E003A1BB2 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				CCC855612CB54CA80065B531 /* Knobby */,
+				CC18E80B2A5DE0CD0074EB30 /* Products */,
 				CC88239C2ACADEBE002DD417 /* Frameworks */,
 				CC8DEFCA2CE7BB10003A1BB2 /* README.md */,
 			);
@@ -65,7 +64,6 @@
 		CC88239C2ACADEBE002DD417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CC18E80B2A5DE0CD0074EB30 /* Products */,
 				CC88239D2ACADEBF002DD417 /* DisplayServices.framework */,
 			);
 			name = Frameworks;
@@ -118,9 +116,6 @@
 				Base,
 			);
 			mainGroup = CC18E8012A5DE0CD0074EB30;
-			packageReferences = (
-				CC8DEFE22CE8BB7E003A1BB2 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
-			);
 			productRefGroup = CC18E80B2A5DE0CD0074EB30 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -373,25 +368,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		CC8DEFE22CE8BB7E003A1BB2 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CC8DEFE32CE8BB7E003A1BB2 /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC8DEFE22CE8BB7E003A1BB2 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CC18E8022A5DE0CD0074EB30 /* Project object */;
 }
