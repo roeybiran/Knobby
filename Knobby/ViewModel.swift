@@ -9,7 +9,7 @@ final class ViewModel {
 
   private(set) var volumeValue = Float()
   private(set) var brightnessValue = Float()
-  private(set) var focusedSlider: ContentView.FocusedSlider?
+  private(set) var focusedSlider = FocusedSetting.volume
   private(set) var isVisible = false
 
   private func getCurrentValue() -> Float? {
@@ -18,8 +18,6 @@ final class ViewModel {
       brightnessValue
     case .volume:
       volumeValue
-    case .none:
-      nil
     }
   }
 
@@ -29,13 +27,15 @@ final class ViewModel {
       onBrightnessSliderChange(to: newValue)
     case .volume:
       onVolumeSliderChange(to: newValue)
-    case .none:
-      return
     }
   }
 
   private func dismiss() {
     isVisible = false
+    if let eventMonitor {
+      NSEvent.removeMonitor(eventMonitor)
+      self.eventMonitor = nil
+    }
   }
 
   func onVolumeSliderChange(to value: Float) {
@@ -48,9 +48,8 @@ final class ViewModel {
     brightnessValue = brightnessClient.getBrightness()
   }
 
-  func onFocusedSliderChanged(_ slider: ContentView.FocusedSlider?) {
-    focusedSlider = slider
-  }
+  @ObservationIgnored
+  var eventMonitor: Any?
 
   func onToggleApp() {
     if isVisible {
@@ -59,32 +58,44 @@ final class ViewModel {
       isVisible = true
       volumeValue = audioToolboxClient.getVolume()
       brightnessValue = brightnessClient.getBrightness()
+      eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [weak self] event in
+        guard let self else { return nil }
+        let keyCode = event.keyCode
+        var newValue = getCurrentValue() ?? 0
+        switch Int(keyCode) {
+        case kVK_ANSI_L:
+          newValue += 0.1
+        case kVK_ANSI_H:
+          newValue -= 0.1
+        case kVK_ANSI_J:
+          newValue = 0
+        case kVK_ANSI_K:
+          newValue = 1
+        case kVK_Tab:
+          switch focusedSlider {
+          case .volume:
+            focusedSlider = .brightness
+          case .brightness:
+            focusedSlider = .volume
+          }
+          return nil
+        case kVK_ANSI_Comma where event.modifierFlags.subtracting([.command]) == .init(rawValue: 264):
+          (NSApplication.shared.delegate as? AppDelegate)?.orderFrontSettingsWindow(nil)
+          return nil
+        case kVK_Escape:
+          dismiss()
+          return nil
+        default:
+          return nil
+        }
+
+        setCurrentValue(max(newValue, 0))
+        return nil
+      }
     }
   }
 
   func onResignKey() {
     dismiss()
-  }
-
-  func onKeyPress(_ keyCode: UInt16) -> KeyPress.Result {
-    var newValue = getCurrentValue() ?? 0
-    switch Int(keyCode) {
-    case kVK_ANSI_L:
-      newValue += 0.1
-    case kVK_ANSI_H:
-      newValue -= 0.1
-    case kVK_ANSI_J:
-      newValue = 0
-    case kVK_ANSI_K:
-      newValue = 1
-    case kVK_Escape:
-      dismiss()
-      return .handled
-    default:
-      return .ignored
-    }
-
-    setCurrentValue(max(newValue, 0))
-    return .handled
   }
 }
