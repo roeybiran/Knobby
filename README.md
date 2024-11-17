@@ -4,12 +4,9 @@
 <p>A tiny app to control your Mac’s volume and screen brightness with Vim key bindings.</p>
 </div>
 
-This app exists because:
+This app exists because I wanted a dead–simple “agent” app that could be quickly summoned whenever (stylishly if possible) and allow me to adjust the Mac’s volume and brightness with Vim key bindings.
 
-- I wanted a dead–simple “agent” app that could be quickly summoned whenever (stylishly if possible) and allow me to adjust the Mac’s volume and brightness with Vim key bindings.
-- I wanted to play with latest Apple technologies (e.g. Sonoma’s SwiftUI, Observation…).
-
-As of macOS Sonoma and on Apple Silicon machines, the only reliable way to programmatically control the display’s brightness is through the private DisplayServices framework, which necessitates removing the app’s sandbox. This is why this app can’t be distributed through the App Store.
+Note: As of macOS Sonoma and on Apple Silicon machines, the only reliable way to programmatically control the display’s brightness is through the private DisplayServices framework, which necessitates removing the app’s sandbox. This is why this app can’t be distributed through the App Store.
 
 **Requires macOS Sonoma.**
 
@@ -19,12 +16,26 @@ https://github.com/roeybiran/Knobby/assets/37002381/2c052fd6-8102-467b-b577-2d80
 
 ## Install
 
-- Download the latest release, mount the DMG and move the app bundle to your applications folder.
+Download the latest release, mount the DMG and move the app bundle to your applications folder.
 
 ## Usage
 
-- To activate this app from anywhere using a global keyboard shortcut, and without taking focus off the current app, use an app like [Karabiner–Elements](https://github.com/pqrs-org/Karabiner-Elements) and configure your desired keyboard shortcut to run the following shell script:
+Manipulating the currently focused setting (either volume or brightness):
 
-```
-open -gja Knobby
-```
+| Key Binding | Action |
+| --- | --- |
+| <kbd>L</kbd> | Increase by 10% |
+| <kbd>H</kbd> | Decrease by 10% |
+| <kbd>J</kbd> | Set to 0% |
+| <kbd>K</kbd> | Set to 100% |
+
+General shortcuts: 
+
+| Key Binding | Action |
+| --- | --- |
+| <kbd>Tab</kbd> | Change focused setting
+| <kbd>Esc</kbd> | Dismiss Knobby
+
+## Acknowledgements
+
+- [sindresorhus/KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
