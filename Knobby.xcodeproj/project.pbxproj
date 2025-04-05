@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC88239D2ACADEBF002DD417 /* DisplayServices.framework */; };
+		CC14F7BD2D9FF3D100131468 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC14F7BC2D9FF3D100131468 /* DisplayServices.framework */; };
 		CC8DEFD82CE7BB10003A1BB2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC8DEFCA2CE7BB10003A1BB2 /* README.md */; };
 		CCD5B8622CE9FD4800019E8A /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CCD5B8612CE9FD4800019E8A /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CC18E80A2A5DE0CD0074EB30 /* Knobby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC88239D2ACADEBF002DD417 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
+		CC14F7BC2D9FF3D100131468 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = /System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<absolute>"; };
+		CC2F8C0A2DA4790600075E56 /* Knobby_DEBUG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knobby_DEBUG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC8DEFCA2CE7BB10003A1BB2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,38 +37,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC88239E2ACADEBF002DD417 /* DisplayServices.framework in Frameworks */,
 				CCD5B8622CE9FD4800019E8A /* KeyboardShortcuts in Frameworks */,
+				CC14F7BD2D9FF3D100131468 /* DisplayServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC14F7BE2D9FF3DA00131468 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC14F7BC2D9FF3D100131468 /* DisplayServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CC18E8012A5DE0CD0074EB30 = {
 			isa = PBXGroup;
 			children = (
 				CCC855612CB54CA80065B531 /* Knobby */,
-				CC18E80B2A5DE0CD0074EB30 /* Products */,
-				CC88239C2ACADEBE002DD417 /* Frameworks */,
 				CC8DEFCA2CE7BB10003A1BB2 /* README.md */,
+				CC14F7BE2D9FF3DA00131468 /* Frameworks */,
+				CC2F8C0A2DA4790600075E56 /* Knobby_DEBUG.app */,
 			);
-			sourceTree = "<group>";
-		};
-		CC18E80B2A5DE0CD0074EB30 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CC18E80A2A5DE0CD0074EB30 /* Knobby.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		CC88239C2ACADEBE002DD417 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				CC88239D2ACADEBF002DD417 /* DisplayServices.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,7 +83,7 @@
 			);
 			name = Knobby;
 			productName = Knobby;
-			productReference = CC18E80A2A5DE0CD0074EB30 /* Knobby.app */;
+			productReference = CC2F8C0A2DA4790600075E56 /* Knobby_DEBUG.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +94,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					CC18E8092A5DE0CD0074EB30 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -121,7 +113,7 @@
 			packageReferences = (
 				CCD5B8602CE9FD4800019E8A /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
-			productRefGroup = CC18E80B2A5DE0CD0074EB30 /* Products */;
+			productRefGroup = CC18E8012A5DE0CD0074EB30;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -188,6 +180,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -251,6 +244,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -281,10 +275,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Knobby/Resources",
+					"$(PROJECT_DIR)/Knobby/Model",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Knobby/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Knobby;
@@ -298,9 +296,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.4.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby.DEBUG;
+				PRODUCT_NAME = "$(TARGET_NAME)_DEBUG";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Knobby/Resources/Knobby-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -321,10 +319,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = YVAVUS4X5W;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Knobby/Resources",
+					"$(PROJECT_DIR)/Knobby/Model",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Knobby/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Knobby;
@@ -338,7 +340,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
