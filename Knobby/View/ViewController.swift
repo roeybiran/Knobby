@@ -35,6 +35,8 @@ final class ViewController: NSViewController {
 
     let stack = NSStackView(views: [])
     stack.orientation = .vertical
+    stack.spacing = 20
+    stack.edgeInsets = .init(top: 60, left: 0, bottom: 20, right: 0)
 
     for setting in AdjustableMetric.allCases {
       // https://wwdcnotes.com/documentation/wwdcnotes/wwdc23-10258-animate-symbols-in-your-app/
@@ -48,104 +50,124 @@ final class ViewController: NSViewController {
         action: #selector(changeSliderValue)
       )
       slider.tag = setting.rawValue
-      slider.controlSize = .large
+
+      if #available(macOS 26.0, *) {
+        slider.controlSize = .extraLarge
+      } else {
+        slider.controlSize = .large
+      }
 
       let innerStack = NSStackView(views: [imageView, slider])
-      innerStack.edgeInsets = .init(top: 0, left: 20, bottom: 0, right: 20)
+      innerStack.edgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
 
       sliders.append(slider)
       stack.addArrangedSubview(innerStack)
     }
 
-    if let last = stack.arrangedSubviews.last {
-      stack.setCustomSpacing(20, after: last)
-    } else {
-      assertionFailure()
-    }
-
-    let separator = NSBox()
-    separator.boxType = .separator
-
-    let image = NSImage(named: NSImage.actionTemplateName)
     let button = NSPopUpButton(
-      image: image ?? .init(),
+      image: NSImage(named: NSImage.actionTemplateName) ?? .init(),
       pullDownMenu: .general()
     )
+    button.isBordered = false
     button.refusesFirstResponder = true
-    button.bezelStyle = .toolbar
-    button.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
+    button.translatesAutoresizingMaskIntoConstraints = false
 
-    stack.addArrangedSubview(separator)
-    stack.addArrangedSubview(button)
-    stack.spacing = 10
-    stack.edgeInsets = .init(top: 0, left: 0, bottom: 10, right: 0)
+    stack.addSubview(button)
 
-    let box = NSBox()
-    box.boxType = .custom
-    box.borderWidth = 1
-    box.borderColor = .separatorColor
-    box.cornerRadius = 8
-    box.fillColor = .windowBackgroundColor
-    box.contentViewMargins = .zero
-    box.translatesAutoresizingMaskIntoConstraints = false
+    let container: NSView
 
-    let shadow = NSShadow()
-    shadow.shadowOffset = .init(width: 0, height: -6)
-    shadow.shadowBlurRadius = 20
-    shadow.shadowColor = .black.withAlphaComponent(0.5)
-    box.shadow = shadow
+    if #available(macOS 26.0, *) {
+      let glass = NSGlassEffectView()
+      glass.contentView = stack
+      container = glass
+    } else {
+      // Fallback on earlier versions
+      let box = NSBox()
+      box.boxType = .custom
+      box.borderWidth = 1
+      box.borderColor = .separatorColor
+      box.cornerRadius = 8
+      box.fillColor = .windowBackgroundColor
+      box.contentViewMargins = .zero
 
-    let visualEffectView = NSVisualEffectView()
-    visualEffectView.material = .hudWindow
-    visualEffectView.wantsLayer = true
-    visualEffectView.layer?.cornerRadius = 8
-    visualEffectView.addSubview(stack)
+      let shadow = NSShadow()
+      shadow.shadowOffset = .init(width: 0, height: -6)
+      shadow.shadowBlurRadius = 20
+      shadow.shadowColor = .black.withAlphaComponent(0.5)
+      box.shadow = shadow
 
-    box.contentView = visualEffectView
+      let visualEffectView = NSVisualEffectView()
+      visualEffectView.material = .hudWindow
+      visualEffectView.wantsLayer = true
+      visualEffectView.layer?.cornerRadius = 8
+      visualEffectView.addSubview(stack)
 
-    view.addSubview(box)
+      box.contentView = visualEffectView
+      container = box
+    }
+
+    container.wantsLayer = true
+    container.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(container)
+
+    self.container = container
 
     NSLayoutConstraint.activate(
       [
-        stack.leadingAnchor.constraint(equalTo: visualEffectView.leadingAnchor),
-        stack.trailingAnchor.constraint(equalTo: visualEffectView.trailingAnchor),
-        stack.topAnchor.constraint(equalTo: visualEffectView.layoutMarginsGuide.topAnchor, constant: model.notchHeight()),
-        stack.bottomAnchor.constraint(equalTo: visualEffectView.bottomAnchor),
-        button.trailingAnchor.constraint(equalTo: stack.layoutMarginsGuide.trailingAnchor),
-        box.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        box.topAnchor.constraint(equalTo: view.topAnchor),
-        box.widthAnchor.constraint(equalToConstant: .knobbyWidth),
+        stack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+        stack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+        stack.topAnchor.constraint(equalTo: container.topAnchor),
+        stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+
+        button.topAnchor.constraint(equalTo: stack.topAnchor, constant: 14),
+        button.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -20),
+
+        container.topAnchor.constraint(equalTo: view.topAnchor),
+        container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        container.widthAnchor.constraint(equalToConstant: .knobbyWidth),
       ]
     )
+  }
 
-    withObservationTracking(of: self.model.values) { metrics in
-      Task { @MainActor in
-        for metric in metrics {
-          self.sliders[metric.rawValue].animator().floatValue = metric.currentValue
-        }
-      }
+  private var container: NSView?
+  private var isViewVisible = false
+
+  override func updateViewConstraints() {
+    super.updateViewConstraints()
+
+    for metric in model.values {
+      self.sliders[metric.rawValue].animator().floatValue = metric.currentValue
     }
 
-    withObservationTracking(of: self.model.isVisible) { visible in
-      Task { @MainActor [weak self] in
-        guard let self else { return }
-        let targetView = box
-        guard let targetLayer = targetView.layer else { return }
-        targetLayer.anchorPoint = .init(x: 0.5, y: 1)
-        targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
-        let springAnimation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
-        springAnimation.keyPath = "transform.scale"
-        if visible {
-          springAnimation.fromValue = CATransform3DMakeScale(0, 0, 0)
-          sliders.forEach { $0.isEnabled = true }
-          view.window?.makeFirstResponder(sliders.first)
-        } else {
-          springAnimation.toValue = CATransform3DMakeScale(0, 0, 0)
-          sliders.forEach { $0.isEnabled = false }
-        }
-        targetLayer.add(springAnimation, forKey: "transformAnim")
-      }
 
+    if model.isVisible != isViewVisible {
+      isViewVisible = model.isVisible
+      guard
+        let window = view.window,
+        let frame = NSScreen.main?.frame,
+        let targetView = container,
+        let targetLayer = targetView.layer
+      else { return assertionFailure() }
+
+      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
+      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
+      let springAnimation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
+      springAnimation.keyPath = "transform.scale"
+      if model.isVisible {
+        window.setFrame(frame, display: true, animate: false)
+        window.makeKeyAndOrderFront(nil)
+        window.animator().alphaValue = 1
+        springAnimation.fromValue = CATransform3DMakeScale(0, 0, 0)
+        targetLayer.add(springAnimation, forKey: "transformAnim")
+        sliders.forEach { $0.isEnabled = true }
+        window.makeFirstResponder(sliders.first)
+      } else {
+        springAnimation.toValue = CATransform3DMakeScale(0, 0, 0)
+        targetLayer.add(springAnimation, forKey: "transformAnim")
+        sliders.forEach { $0.isEnabled = false }
+        window.animator().alphaValue = 0
+        NSApplication.shared.deactivate()
+      }
     }
   }
 
