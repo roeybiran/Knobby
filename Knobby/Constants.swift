@@ -5,7 +5,6 @@ let appName = "Knobby"
 
 extension CGFloat {
   static let knobbyWidth = Self(300)
-  static let knobbyHeight = Self(100)
 }
 
 extension NSUserInterfaceItemIdentifier {

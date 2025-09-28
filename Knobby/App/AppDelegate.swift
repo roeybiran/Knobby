@@ -25,21 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     observation = mainWindow.observe(\.firstResponder, options: [.initial, .new]) { [weak self] window, value in
       self?.model.onFocusedSliderChanged(change: value)
     }
-
-    withObservationTracking(of: self.model.isVisible) { [weak self] visible in
-      guard let self else { return }
-      guard let frame = NSScreen.main?.frame else { return assertionFailure() }
-      Task { @MainActor in
-        if visible {
-          self.mainWindow.setFrame(frame, display: true, animate: false)
-          self.mainWindow.makeKeyAndOrderFront(nil)
-          self.mainWindow.animator().alphaValue = 1
-        } else {
-          self.mainWindow.animator().alphaValue = 0
-          NSApplication.shared.deactivate()
-        }
-      }
-    }
   }
 
   func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

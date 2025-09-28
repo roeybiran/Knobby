@@ -54,15 +54,4 @@ final class Model {
   func onResignKey() {
     isVisible = false
   }
-
-  func notchHeight() -> CGFloat {
-    NSScreen.main?.auxiliaryTopLeftArea?.height ?? .zero
-  }
-
-  private func notchWidth() -> CGFloat {
-    let width = NSScreen.main?.visibleFrame.width ?? 0
-    let left = NSScreen.main?.auxiliaryTopLeftArea?.width ?? 0
-    let right = NSScreen.main?.auxiliaryTopRightArea?.width ?? 0
-    return width - left - right
-  }
 }
