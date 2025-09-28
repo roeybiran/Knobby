@@ -8,7 +8,7 @@ This app exists because I wanted a dead–simple “agent” app that could be q
 
 Note: As of macOS Sonoma and on Apple Silicon machines, the only reliable way to programmatically control the display’s brightness is through the private DisplayServices framework, which necessitates removing the app’s sandbox. This is why this app can’t be distributed through the App Store.
 
-[Demo](./assets/demo.mp4)
+https://github.com/user-attachments/assets/0aaca6ab-d7aa-49db-a15a-88c98595d17d
 
 **Requires macOS Sonoma.**
 
