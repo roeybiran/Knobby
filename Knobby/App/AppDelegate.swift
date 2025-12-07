@@ -12,7 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     NSApplication.shared.setActivationPolicy(.accessory)
 
-    mainWindow.contentViewController = ViewController(model: model)
+    mainWindow.contentView = NSHostingView(rootView: ContentView(model: model))
     mainWindow.delegate = self
 
     let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem).fixedSize())

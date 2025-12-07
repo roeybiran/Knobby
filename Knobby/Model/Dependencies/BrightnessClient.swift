@@ -14,12 +14,12 @@ struct BrightnessClient {
       getBrightness: {
         var brightness: Float = 0
         guard let displayID = getDisplayID() else { return brightness }
-        DisplayServicesGetBrightness(displayID, &brightness)
+//        DisplayServicesGetBrightness(displayID, &brightness)
         return brightness
       },
       setBrightness: { brightness in
         guard let displayID = getDisplayID() else { return }
-        DisplayServicesSetBrightness(displayID, brightness)
+//        DisplayServicesSetBrightness(displayID, brightness)
       }
     )
   }()

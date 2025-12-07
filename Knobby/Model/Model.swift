@@ -4,9 +4,9 @@ import SwiftUI
 
 @Observable
 final class Model {
-  private(set) var values: [AdjustableMetric] = AdjustableMetric.allCases
-  private(set) var focusedSetting = AdjustableMetric.allCases.first?.rawValue
-  private(set) var isVisible = false
+  var values  = AdjustableMetric.allCases
+  var focusedSetting = AdjustableMetric.allCases.first?.rawValue
+  var isVisible = false
 
   func onIncrease() {
     guard let focusedSetting = focusedSetting else { return }

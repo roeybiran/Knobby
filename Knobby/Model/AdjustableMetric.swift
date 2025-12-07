@@ -1,3 +1,5 @@
+import SwiftUI
+
 enum AdjustableMetric: Int, CaseIterable {
   case volume
   case brightness
