@@ -1,3 +1,5 @@
+import AppKit
+
 extension NSWindow {
   static let main: Panel = {
     let panel = Panel()

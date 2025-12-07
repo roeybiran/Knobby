@@ -49,7 +49,7 @@ struct ContentView: View {
       }
     }
     .padding()
-    .frame(width: .knobbyWidth)
+    .frame(width: .knobbyWidth, height: 200)
     .modifier(GlassBackgroundModifier())
 //    .shadow(radius: 2)
   }
@@ -98,3 +98,4 @@ private struct GlassBackgroundModifier: ViewModifier {
   model.isVisible = true
   return ContentView(model: model)
 }
+

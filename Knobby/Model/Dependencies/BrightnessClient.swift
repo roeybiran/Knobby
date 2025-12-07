@@ -14,14 +14,27 @@ struct BrightnessClient {
       getBrightness: {
         var brightness: Float = 0
         guard let displayID = getDisplayID() else { return brightness }
-//        DisplayServicesGetBrightness(displayID, &brightness)
+        _ = DisplayServicesGetBrightness(displayID, &brightness)
         return brightness
       },
       setBrightness: { brightness in
         guard let displayID = getDisplayID() else { return }
-//        DisplayServicesSetBrightness(displayID, brightness)
+        _ = DisplayServicesSetBrightness(displayID, brightness)
       }
     )
   }()
 }
 
+typealias CGDirectDisplayID = UInt32
+
+@_silgen_name("DisplayServicesGetBrightness")
+func DisplayServicesGetBrightness(
+  _ display: CGDirectDisplayID,
+  _ brightness: UnsafeMutablePointer<Float>
+) -> Int32
+
+@_silgen_name("DisplayServicesSetBrightness")
+func DisplayServicesSetBrightness(
+  _ display: CGDirectDisplayID,
+  _ brightness: Float
+) -> Int32

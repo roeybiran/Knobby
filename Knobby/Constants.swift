@@ -1,5 +1,6 @@
 import Foundation
 import KeyboardShortcuts
+import AppKit
 
 let appName = "Knobby"
 

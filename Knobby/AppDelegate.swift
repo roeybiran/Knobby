@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc func toggleKnobby(_ sender: Any?) {
     model.onToggleApp()
+    mainWindow.makeKeyAndOrderFront(nil)
   }
 
   @IBAction func orderFrontSettingsWindow(_ sender: Any?) {

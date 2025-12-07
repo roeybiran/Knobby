@@ -2,7 +2,6 @@ import SwiftUI
 import ServiceManagement
 import KeyboardShortcuts
 
-
 struct SettingsView: View {
   let statusItem: NSStatusItem
 
