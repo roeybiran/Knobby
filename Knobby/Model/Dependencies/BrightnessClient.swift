@@ -1,25 +1,36 @@
+import AppKit
 import Foundation
-import Cocoa
 
 struct BrightnessClient {
-  var getBrightness: () -> Float
-  var setBrightness: (_ value: Float) -> Void
+  struct Display: Identifiable, Hashable {
+    let id: CGDirectDisplayID
+    let name: String
+  }
+
+  var displays: () -> [Display]
+  var getBrightness: (_ displayID: CGDirectDisplayID) -> Float
+  var setBrightness: (_ displayID: CGDirectDisplayID, _ value: Float) -> Void
 
   static let liveValue: Self = {
-    func getDisplayID() -> CGDirectDisplayID? {
-      NSScreen.main?.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID
-    }
+    Self(
+      displays: {
+        NSScreen.screens.compactMap { screen in
+          guard
+            let displayID = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID
+          else { return nil }
 
-    return Self(
-      getBrightness: {
-        var brightness: Float = 0
-        guard let displayID = getDisplayID() else { return brightness }
-        _ = DisplayServicesGetBrightness(displayID, &brightness)
+          var brightness = Float.zero
+          guard DisplayServicesGetBrightness(displayID, &brightness) == 0 else { return nil }
+          return Display(id: displayID, name: screen.localizedName)
+        }
+      },
+      getBrightness: { displayID in
+        var brightness = Float.zero
+        guard DisplayServicesGetBrightness(displayID, &brightness) == 0 else { return .zero }
         return brightness
       },
-      setBrightness: { brightness in
-        guard let displayID = getDisplayID() else { return }
-        _ = DisplayServicesSetBrightness(displayID, brightness)
+      setBrightness: { displayID, value in
+        _ = DisplayServicesSetBrightness(displayID, max(0, min(1, value)))
       }
     )
   }()

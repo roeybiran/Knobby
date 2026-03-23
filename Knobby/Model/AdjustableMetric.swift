@@ -1,37 +1,24 @@
-import SwiftUI
+import AudioToolbox
+import Foundation
 
-enum AdjustableMetric: Int, CaseIterable {
-  case volume
-  case brightness
-
-  static let audioToolboxClient = AudioToolboxClient.liveValue
-  static let brightnessClient = BrightnessClient.liveValue
-
-  var imageName: String {
-    switch self {
-    case .volume:
-      "speaker.wave.2.fill"
-    case .brightness:
-      "sun.max.fill"
-    }
+struct AdjustableMetric: Identifiable, Hashable {
+  enum Kind: Hashable {
+    case outputDevice(AudioDeviceID)
+    case displayDevice(CGDirectDisplayID)
   }
 
-  var currentValue: Float {
-    get {
-      switch self {
-      case .volume:
-        Self.audioToolboxClient.getVolume()
-      case .brightness:
-        Self.brightnessClient.getBrightness()
-      }
-    }
-    set {
-      switch self {
-      case .volume:
-        Self.audioToolboxClient.setVolume(newValue)
-      case .brightness:
-        Self.brightnessClient.setBrightness(newValue)
-      }
+  let kind: Kind
+  let deviceName: String
+  var currentValue: Float
+
+  var id: Kind { kind }
+
+  var imageName: String {
+    switch kind {
+    case .outputDevice:
+      "speaker.wave.2.fill"
+    case .displayDevice:
+      "sun.max.fill"
     }
   }
 }

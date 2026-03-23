@@ -1,34 +1,43 @@
-import SwiftUI
 import Carbon
+import SwiftUI
 
 struct ContentView: View {
   @Bindable var model: Model
-  @FocusState private var focusedMetric: AdjustableMetric?
+  @FocusState private var focusedMetric: AdjustableMetric.Kind?
 
   var body: some View {
-    VStack(spacing: 8) {
-      ForEach(model.values.enumerated(), id: \.element) { (offset, metric) in
-        HStack {
-          Image(systemName: metric.imageName)
-          Slider(
-            value: Binding(
-              get: { model.values[offset].currentValue },
-              set: { model.values[offset].currentValue = $0 }
-            ),
-            in: 0...1
-          )
-          .controlSize(.extraLarge)
+    VStack(alignment: .leading, spacing: 16) {
+      ForEach(model.values) { metric in
+        VStack(alignment: .leading, spacing: 8) {
+          Text(metric.deviceName)
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+          HStack(spacing: 12) {
+            Image(systemName: metric.imageName)
+              .frame(width: 18)
+
+            Slider(
+              value: Binding(
+                get: { Double(metric.currentValue) },
+                set: { model.onSliderValueChanged(kind: metric.id, value: Float($0)) }
+              ),
+              in: 0...1
+            )
+            .controlSize(.extraLarge)
+            .focused($focusedMetric, equals: metric.id)
+          }
         }
-        .focused($focusedMetric, equals: metric)
       }
     }
-//    .scaleEffect(model.isVisible ? 1 : 0, anchor: .top)
-//    .animation(.spring(duration: 0.3, bounce: 0.3), value: model.isVisible)
     .onChange(of: focusedMetric) { _, newValue in
-      model.focusedSetting = newValue?.rawValue
+      model.onFocusedMetricChanged(newValue)
+    }
+    .onChange(of: model.focusedSetting) { _, newValue in
+      focusedMetric = newValue
     }
     .onAppear {
-      focusedMetric = model.values.first
+      focusedMetric = model.focusedSetting
     }
     .onKeyPress { press in
       switch press.key {
@@ -48,40 +57,12 @@ struct ContentView: View {
         return .ignored
       }
     }
-    .padding()
-    .frame(width: .knobbyWidth, height: 200)
+    .padding(20)
+    .frame(width: .knobbyWidth, alignment: .leading)
+    .fixedSize(horizontal: false, vertical: true)
     .modifier(GlassBackgroundModifier())
-//    .shadow(radius: 2)
   }
 }
-
-// MARK: - Menu Button
-
-//private struct MenuButton: View {
-//  var body: some View {
-//    Menu {
-//      Button("Settings...") {
-//        NSApp.sendAction(Selector(("orderFrontSettingsWindow")), to: nil, from: nil)
-//      }
-//      .keyboardShortcut(",", modifiers: .command)
-//
-//      Divider()
-//
-//      Button("Quit \(appName)") {
-//        NSApplication.shared.terminate(nil)
-//      }
-//      .keyboardShortcut("q", modifiers: .command)
-//    } label: {
-//      Image(systemName: "gearshape")
-//        .foregroundStyle(.secondary)
-//    }
-//    .menuStyle(.borderlessButton)
-//    .menuIndicator(.hidden)
-//    .fixedSize()
-//  }
-//}
-
-// MARK: - Glass Background Modifier
 
 private struct GlassBackgroundModifier: ViewModifier {
   func body(content: Content) -> some View {
@@ -94,8 +75,42 @@ private struct GlassBackgroundModifier: ViewModifier {
 }
 
 #Preview {
-  let model = Model()
+  let model = Model(
+    audioToolboxClient: .init(
+      outputDevices: {
+        [
+          .init(id: 1, name: "MacBook Speakers"),
+          .init(id: 2, name: "Studio Display")
+        ]
+      },
+      getVolume: { deviceID in
+        switch deviceID {
+        case 1:
+          0.7
+        default:
+          0.4
+        }
+      },
+      setVolume: { _, _ in }
+    ),
+    brightnessClient: .init(
+      displays: {
+        [
+          .init(id: 11, name: "Built-in Display"),
+          .init(id: 12, name: "LG UltraFine")
+        ]
+      },
+      getBrightness: { displayID in
+        switch displayID {
+        case 11:
+          0.8
+        default:
+          0.55
+        }
+      },
+      setBrightness: { _, _ in }
+    )
+  )
   model.isVisible = true
   return ContentView(model: model)
 }
-

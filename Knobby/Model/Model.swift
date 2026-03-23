@@ -1,49 +1,74 @@
 import Foundation
-import Carbon
-import SwiftUI
+import Observation
 
+@MainActor
 @Observable
 final class Model {
-  var values  = AdjustableMetric.allCases
-  var focusedSetting = AdjustableMetric.allCases.first?.rawValue
+  var values: [AdjustableMetric]
+  var focusedSetting: AdjustableMetric.Kind?
   var isVisible = false
 
+  private let audioToolboxClient: AudioToolboxClient
+  private let brightnessClient: BrightnessClient
+
+  init(
+    audioToolboxClient: AudioToolboxClient = .liveValue,
+    brightnessClient: BrightnessClient = .liveValue
+  ) {
+    self.audioToolboxClient = audioToolboxClient
+    self.brightnessClient = brightnessClient
+    self.values = Self.makeValues(
+      audioToolboxClient: audioToolboxClient,
+      brightnessClient: brightnessClient
+    )
+    self.focusedSetting = self.values.first?.id
+  }
+
   func onIncrease() {
-    guard let focusedSetting = focusedSetting else { return }
-    values[focusedSetting].currentValue += 0.1
+    guard let index = indexForFocusedSetting() else { return }
+    applyValue(values[index].currentValue + 0.1, at: index)
   }
 
   func onMaximize() {
-    guard let focusedSetting = focusedSetting else { return }
-    values[focusedSetting].currentValue = 1
+    guard let index = indexForFocusedSetting() else { return }
+    applyValue(1, at: index)
   }
 
   func onMinimize() {
-    guard let focusedSetting = focusedSetting else { return }
-    values[focusedSetting].currentValue = .zero
+    guard let index = indexForFocusedSetting() else { return }
+    applyValue(.zero, at: index)
   }
 
   func onDecrease() {
-    guard let focusedSetting = focusedSetting else { return }
-    values[focusedSetting].currentValue -= 0.1
+    guard let index = indexForFocusedSetting() else { return }
+    applyValue(values[index].currentValue - 0.1, at: index)
   }
 
-  func onSliderValueChanged(sender: Any?) {
-    guard let slider = sender as? NSSlider else { return }
-    let tag = slider.tag
-    values[tag].currentValue = slider.floatValue
+  func onSliderValueChanged(kind: AdjustableMetric.Kind, value: Float) {
+    guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
+    applyValue(value, at: index)
   }
 
-  func onFocusedSliderChanged(change: NSKeyValueObservedChange<NSResponder?>) {
-    guard let tag = change.newValue?.flatMap({ $0 as? NSSlider })?.tag else { return }
-    focusedSetting = tag
+  func onFocusedMetricChanged(_ kind: AdjustableMetric.Kind?) {
+    focusedSetting = kind
   }
 
   func onToggleApp() {
     isVisible.toggle()
+    if !isVisible {
+      return
+    }
 
-    if isVisible {
-      values = AdjustableMetric.allCases
+    let previouslyFocusedSetting = focusedSetting
+    values = Self.makeValues(
+      audioToolboxClient: audioToolboxClient,
+      brightnessClient: brightnessClient
+    )
+
+    if let previouslyFocusedSetting, values.contains(where: { $0.id == previouslyFocusedSetting }) {
+      focusedSetting = previouslyFocusedSetting
+    } else {
+      focusedSetting = values.first?.id
     }
   }
 
@@ -53,5 +78,43 @@ final class Model {
 
   func onResignKey() {
     isVisible = false
+  }
+
+  private func indexForFocusedSetting() -> Int? {
+    guard let focusedSetting else { return nil }
+    return values.firstIndex(where: { $0.id == focusedSetting })
+  }
+
+  private func applyValue(_ value: Float, at index: Int) {
+    let clampedValue = max(0, min(1, value))
+    values[index].currentValue = clampedValue
+
+    switch values[index].kind {
+    case let .outputDevice(deviceID):
+      audioToolboxClient.setVolume(deviceID, clampedValue)
+    case let .displayDevice(displayID):
+      brightnessClient.setBrightness(displayID, clampedValue)
+    }
+  }
+
+  private static func makeValues(
+    audioToolboxClient: AudioToolboxClient,
+    brightnessClient: BrightnessClient
+  ) -> [AdjustableMetric] {
+    let outputMetrics = audioToolboxClient.outputDevices().map { device in
+      AdjustableMetric(
+        kind: .outputDevice(device.id),
+        deviceName: device.name,
+        currentValue: audioToolboxClient.getVolume(device.id)
+      )
+    }
+    let displayMetrics = brightnessClient.displays().map { display in
+      AdjustableMetric(
+        kind: .displayDevice(display.id),
+        deviceName: display.name,
+        currentValue: brightnessClient.getBrightness(display.id)
+      )
+    }
+    return outputMetrics + displayMetrics
   }
 }

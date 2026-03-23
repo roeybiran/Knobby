@@ -7,12 +7,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private let mainWindow = NSWindow.main
   private let settingsWindow = NSWindow.settings
   private let model = Model()
-  private var observation: NSKeyValueObservation?
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     NSApplication.shared.setActivationPolicy(.accessory)
 
     mainWindow.contentView = NSHostingView(rootView: ContentView(model: model))
+    mainWindow.setContentSize(
+      mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
+    )
     mainWindow.delegate = self
 
     let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem).fixedSize())
@@ -20,10 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     KeyboardShortcuts.onKeyDown(for: .toggleKnobby) { [weak self] in
       self?.toggleKnobby(nil)
-    }
-
-    observation = mainWindow.observe(\.firstResponder, options: [.initial, .new]) { [weak self] window, value in
-      self?.model.onFocusedSliderChanged(change: value)
     }
   }
 
@@ -39,7 +37,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc func toggleKnobby(_ sender: Any?) {
     model.onToggleApp()
-    mainWindow.makeKeyAndOrderFront(nil)
+
+    if model.isVisible {
+      mainWindow.contentView?.layoutSubtreeIfNeeded()
+      mainWindow.setContentSize(
+        mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
+      )
+      mainWindow.makeKeyAndOrderFront(nil)
+    } else {
+      mainWindow.orderOut(nil)
+    }
   }
 
   @IBAction func orderFrontSettingsWindow(_ sender: Any?) {
@@ -57,11 +64,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     item.menu = .general()
     return item
   }()
-
 }
 
 extension AppDelegate: NSWindowDelegate {
   func windowDidResignKey(_ notification: Notification) {
     model.onResignKey()
+    mainWindow.orderOut(nil)
   }
 }

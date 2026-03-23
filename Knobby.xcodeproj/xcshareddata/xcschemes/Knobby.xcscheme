@@ -34,7 +34,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CC18E8182A5DE0CE0074EB30"
+               BlueprintIdentifier = "7A4A9C6F2F904CEB00F4E001"
                BuildableName = "KnobbyTests.xctest"
                BlueprintName = "KnobbyTests"
                ReferencedContainer = "container:Knobby.xcodeproj">
