@@ -12,8 +12,28 @@ final class ViewController: NSViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private var sliders = [NSSlider]()
   private let model: Model
+  private let stack: NSStackView = {
+    let stack = NSStackView()
+    stack.orientation = .vertical
+    stack.spacing = 20
+    stack.edgeInsets = .init(top: 60, left: 0, bottom: 20, right: 0)
+    stack.translatesAutoresizingMaskIntoConstraints = false
+    return stack
+  }()
+  private let button: NSPopUpButton = {
+    let button = NSPopUpButton(
+      image: NSImage(named: NSImage.actionTemplateName) ?? .init(),
+      pullDownMenu: .general()
+    )
+    button.isBordered = false
+    button.refusesFirstResponder = true
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+  private var slidersByKind = [AdjustableMetric.Kind: NSSlider]()
+  private var sliderKindsByIdentifier = [ObjectIdentifier: AdjustableMetric.Kind]()
+  private var visibleMetricKinds = [AdjustableMetric.Kind]()
 
   override func keyDown(with event: NSEvent) {
     switch Int(event.keyCode) {
@@ -33,46 +53,8 @@ final class ViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let stack = NSStackView(views: [])
-    stack.orientation = .vertical
-    stack.spacing = 20
-    stack.edgeInsets = .init(top: 60, left: 0, bottom: 20, right: 0)
-
-    for setting in AdjustableMetric.allCases {
-      // https://wwdcnotes.com/documentation/wwdcnotes/wwdc23-10258-animate-symbols-in-your-app/
-      let image = NSImage(systemSymbolName: setting.imageName, accessibilityDescription: nil)
-      let imageView = NSImageView(image: image ?? .init())
-      let slider = NSSlider(
-        value: .zero,
-        minValue: .zero,
-        maxValue: 1,
-        target: self,
-        action: #selector(changeSliderValue)
-      )
-      slider.tag = setting.rawValue
-
-      if #available(macOS 26.0, *) {
-        slider.controlSize = .extraLarge
-      } else {
-        slider.controlSize = .large
-      }
-
-      let innerStack = NSStackView(views: [imageView, slider])
-      innerStack.edgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
-
-      sliders.append(slider)
-      stack.addArrangedSubview(innerStack)
-    }
-
-    let button = NSPopUpButton(
-      image: NSImage(named: NSImage.actionTemplateName) ?? .init(),
-      pullDownMenu: .general()
-    )
-    button.isBordered = false
-    button.refusesFirstResponder = true
-    button.translatesAutoresizingMaskIntoConstraints = false
-
     stack.addSubview(button)
+    rebuildMetricRows()
 
     let container: NSView
 
@@ -135,10 +117,11 @@ final class ViewController: NSViewController {
   override func updateViewConstraints() {
     super.updateViewConstraints()
 
-    for metric in model.values {
-      self.sliders[metric.rawValue].animator().floatValue = metric.currentValue
-    }
+    rebuildMetricRows()
 
+    for metric in model.values {
+      slidersByKind[metric.id]?.animator().floatValue = metric.currentValue
+    }
 
     if model.isVisible != isViewVisible {
       isViewVisible = model.isVisible
@@ -159,12 +142,17 @@ final class ViewController: NSViewController {
         window.animator().alphaValue = 1
         springAnimation.fromValue = CATransform3DMakeScale(0, 0, 0)
         targetLayer.add(springAnimation, forKey: "transformAnim")
-        sliders.forEach { $0.isEnabled = true }
-        window.makeFirstResponder(sliders.first)
+        slidersByKind.values.forEach { $0.isEnabled = true }
+        if
+          let focusedSetting = model.focusedSetting,
+          let slider = slidersByKind[focusedSetting]
+        {
+          window.makeFirstResponder(slider)
+        }
       } else {
         springAnimation.toValue = CATransform3DMakeScale(0, 0, 0)
         targetLayer.add(springAnimation, forKey: "transformAnim")
-        sliders.forEach { $0.isEnabled = false }
+        slidersByKind.values.forEach { $0.isEnabled = false }
         window.animator().alphaValue = 0
         NSApplication.shared.deactivate()
       }
@@ -187,17 +175,73 @@ final class ViewController: NSViewController {
     model.onMaximize()
   }
 
-  @objc func changeSliderValue(_ sender: Any?) {
-    model.onSliderValueChanged(sender: sender)
+  @objc func changeSliderValue(_ sender: NSSlider) {
+    guard let kind = sliderKindsByIdentifier[ObjectIdentifier(sender)] else { return }
+    model.onSliderValueChanged(kind: kind, value: sender.floatValue)
   }
 
   override func cancelOperation(_ sender: Any?) {
     model.onEscapePress()
   }
 
+  func kind(for responder: NSResponder?) -> AdjustableMetric.Kind? {
+    guard let slider = responder as? NSSlider else { return nil }
+    return sliderKindsByIdentifier[ObjectIdentifier(slider)]
+  }
+
   override func loadView() {
     view = NSView()
   }
 
-}
+  private func rebuildMetricRows() {
+    let metricKinds = model.values.map(\.id)
+    guard metricKinds != visibleMetricKinds else { return }
 
+    visibleMetricKinds = metricKinds
+    sliderKindsByIdentifier.removeAll()
+    slidersByKind.removeAll()
+
+    stack.arrangedSubviews.forEach { arrangedSubview in
+      stack.removeArrangedSubview(arrangedSubview)
+      arrangedSubview.removeFromSuperview()
+    }
+
+    for metric in model.values {
+      let title = NSTextField(labelWithString: metric.deviceName)
+      title.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+      title.textColor = .secondaryLabelColor
+
+      let image = NSImage(systemSymbolName: metric.imageName, accessibilityDescription: nil)
+      let imageView = NSImageView(image: image ?? .init())
+      imageView.translatesAutoresizingMaskIntoConstraints = false
+      imageView.widthAnchor.constraint(equalToConstant: 18).isActive = true
+
+      let slider = NSSlider(
+        value: Double(metric.currentValue),
+        minValue: .zero,
+        maxValue: 1,
+        target: self,
+        action: #selector(changeSliderValue)
+      )
+      if #available(macOS 26.0, *) {
+        slider.controlSize = .extraLarge
+      } else {
+        slider.controlSize = .large
+      }
+
+      let controls = NSStackView(views: [imageView, slider])
+      controls.orientation = .horizontal
+      controls.spacing = 12
+      controls.alignment = .centerY
+
+      let row = NSStackView(views: [title, controls])
+      row.orientation = .vertical
+      row.spacing = 8
+      row.edgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+
+      slidersByKind[metric.id] = slider
+      sliderKindsByIdentifier[ObjectIdentifier(slider)] = metric.id
+      stack.addArrangedSubview(row)
+    }
+  }
+}

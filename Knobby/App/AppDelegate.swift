@@ -23,7 +23,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     observation = mainWindow.observe(\.firstResponder, options: [.initial, .new]) { [weak self] window, value in
-      self?.model.onFocusedSliderChanged(change: value)
+      Task { @MainActor in
+        guard
+          let self,
+          let viewController = window.contentViewController as? ViewController
+        else { return }
+
+        self.model.onFocusedMetricChanged(
+          viewController.kind(for: value.newValue ?? window.firstResponder)
+        )
+      }
     }
   }
 
