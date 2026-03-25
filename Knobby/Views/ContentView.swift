@@ -9,40 +9,12 @@ struct ContentView: View {
   let onDismiss: () -> Void
   let onQuit: () -> Void
   @FocusState private var focusedMetric: AdjustableMetric.Kind?
+  private let topInset = CGFloat(40)
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 20) {
-      HStack {
-        Spacer()
-
-        Menu {
-          Button("Toggle \(appName)") {
-            onToggle()
-          }
-
-          Divider()
-
-          Button("Settings") {
-            onOpenSettings()
-          }
-          .keyboardShortcut(",", modifiers: .command)
-
-          Divider()
-
-          Button("Quit \(appName)") {
-            onQuit()
-          }
-          .keyboardShortcut("q", modifiers: .command)
-        } label: {
-          Image(nsImage: NSImage(named: NSImage.actionTemplateName) ?? .init())
-        }
-        .menuStyle(.borderlessButton)
-        .menuIndicator(.hidden)
-        .fixedSize()
-      }
-
+    VStack(alignment: .leading, spacing: 10) {
       ForEach(model.values) { metric in
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
           Text(metric.deviceName)
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -69,7 +41,32 @@ struct ContentView: View {
             }
           }
         }
+        Divider()
       }
+    }
+    .padding()
+    .padding(.top, topInset)
+    .overlay(alignment: .topTrailing) {
+      Menu {
+        Button("Toggle \(appName)") {
+          onToggle()
+        }
+        Divider()
+        Button("Settings") {
+          onOpenSettings()
+        }
+        .keyboardShortcut(",", modifiers: .command)
+        Divider()
+        Button("Quit \(appName)") {
+          onQuit()
+        }
+        .keyboardShortcut("q", modifiers: .command)
+      } label: {
+        Image(nsImage: NSImage(named: NSImage.actionTemplateName) ?? .init())
+      }
+      .menuStyle(.borderlessButton)
+      .menuIndicator(.hidden)
+      .padding()
     }
     .onChange(of: focusedMetric) { _, newValue in
       model.onFocusedMetricChanged(newValue)
@@ -112,25 +109,22 @@ struct ContentView: View {
         return .ignored
       }
     }
-    .padding(20)
     .frame(width: .knobbyWidth, alignment: .leading)
-    .fixedSize(horizontal: false, vertical: true)
-//    .modifier(GlassBackgroundModifier())
+    .modifier(GlassBackgroundModifier())
   }
 }
 
 private struct GlassBackgroundModifier: ViewModifier {
   func body(content: Content) -> some View {
     if #available(macOS 26.0, *) {
-      content.glassEffect(.regular)
+      content.glassEffect(
+        .regular,
+        in: RoundedRectangle(
+          cornerRadius: 8
+        )
+      )
     } else {
       content
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-        .overlay {
-          RoundedRectangle(cornerRadius: 8)
-            .stroke(.separator, lineWidth: 1)
-        }
-        .shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 6)
     }
   }
 }

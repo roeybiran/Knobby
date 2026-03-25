@@ -11,13 +11,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     NSApplication.shared.setActivationPolicy(.accessory)
 
-    mainWindow.contentView = NSHostingView(rootView: ContentView(model: model))
-    mainWindow.setContentSize(
-      mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
+     let rootView = NSHostingView(
+      rootView: ContentView(
+        model: model,
+        onToggle: { [weak self] in self?.toggleKnobby(nil) },
+        onOpenSettings: { [weak self] in self?.orderFrontSettingsWindow(nil) },
+        onDismiss: { [weak self] in self?.dismissKnobby(nil) },
+        onQuit: { NSApplication.shared.terminate(nil) }
+      )
     )
+
+    guard let contentView = mainWindow.contentView else {
+      assertionFailure()
+      return
+    }
+
+    rootView.translatesAutoresizingMaskIntoConstraints = false
+    rootView.wantsLayer = true
+
+    contentView.addSubview(rootView)
+    NSLayoutConstraint.activate([
+      rootView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+      rootView.topAnchor.constraint(equalTo: contentView.topAnchor)
+    ])
+
     mainWindow.delegate = self
 
-    let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem).fixedSize())
+    let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem))
     settingsWindow.contentView = settingsView
 
     KeyboardShortcuts.onKeyDown(for: .toggleKnobby) { [weak self] in
@@ -69,24 +89,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }()
 
   private func showMainWindow() {
-    mainWindow.contentView?.layoutSubtreeIfNeeded()
-    mainWindow.setContentSize(
-      mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
-    )
-    if let screen = mainWindow.screen
-      ?? NSScreen.screens.first(where: { NSMouseInRect(NSEvent.mouseLocation, $0.frame, false) })
-      ?? NSScreen.main
-    {
-      let visibleFrame = screen.visibleFrame
-      mainWindow.setFrameTopLeftPoint(
-        .init(
-          x: round(visibleFrame.midX - mainWindow.frame.width / 2),
-          y: round(visibleFrame.maxY)
-        )
-      )
-    }
+    let screenFrame = NSScreen.main?.frame ?? .zero
+//    mainWindow.setFrameTopLeftPoint(
+//      .init(
+//        x: round(screenFrame.midX - mainWindow.frame.width / 2),
+//        y: round(screenFrame.maxY)
+//      )
+//    )
+//
+    mainWindow.setFrame(screenFrame, display: true)
     mainWindow.alphaValue = 0
     mainWindow.makeKeyAndOrderFront(nil)
+
+    if let targetView = mainWindow.contentView, let targetLayer = targetView.layer {
+      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
+      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
+      let springAnimation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
+      springAnimation.keyPath = "transform.scale"
+      springAnimation.fromValue = CATransform3DMakeScale(0.001, 0.001, 1)
+      targetLayer.add(springAnimation, forKey: "transformAnim")
+    }
     NSAnimationContext.runAnimationGroup { context in
       context.duration = 0.3
       mainWindow.animator().alphaValue = 1
@@ -96,6 +118,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func hideMainWindow(deactivateApp: Bool) {
     guard mainWindow.isVisible else { return }
 
+    if let targetView = mainWindow.contentView, let targetLayer = targetView.layer {
+      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
+      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
+      let springAnimation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
+      springAnimation.keyPath = "transform.scale"
+      springAnimation.toValue = CATransform3DMakeScale(0.001, 0.001, 1)
+      targetLayer.add(springAnimation, forKey: "transformAnim")
+    }
     NSAnimationContext.runAnimationGroup { context in
       context.duration = 0.3
       mainWindow.animator().alphaValue = 0

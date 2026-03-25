@@ -11,6 +11,7 @@ extension NSWindow {
     panel.hasShadow = false
     panel.titlebarAppearsTransparent = true
     panel.titleVisibility = .hidden
+    panel.backgroundColor = .clear
     panel.standardWindowButton(.closeButton)?.isHidden = true
     panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
     panel.standardWindowButton(.zoomButton)?.isHidden = true
