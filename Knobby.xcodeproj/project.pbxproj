@@ -23,9 +23,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A4A9C6C2F904CEB00F4E001 /* KnobbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC14F7BC2D9FF3D100131468 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = /System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<absolute>"; };
 		CC2F8C0A2DA4790600075E56 /* KnobbyDEBUG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnobbyDEBUG.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A4A9C6C2F904CEB00F4E001 /* KnobbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnobbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC8DEFCA2CE7BB10003A1BB2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -34,7 +34,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Info.plist,
-				ViewController.swift,
 			);
 			target = CC18E8092A5DE0CD0074EB30 /* Knobby */;
 		};
@@ -42,24 +41,24 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		140C458B2E88075F007A3877 /* Scripts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Scripts; sourceTree = "<group>"; };
-		CCC855612CB54CA80065B531 /* Knobby */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CCC8556C2CB54CA80065B531 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Knobby; sourceTree = "<group>"; };
 		7A4A9C6D2F904CEB00F4E001 /* KnobbyTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = KnobbyTests; sourceTree = "<group>"; };
+		CCC855612CB54CA80065B531 /* Knobby */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CCC8556C2CB54CA80065B531 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Knobby; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7A4A9C6E2F904CEB00F4E001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC18E8072A5DE0CD0074EB30 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				CCD5B8622CE9FD4800019E8A /* KeyboardShortcuts in Frameworks */,
 				CC14F7BD2D9FF3D100131468 /* DisplayServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7A4A9C6E2F904CEB00F4E001 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,26 +89,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CC18E8092A5DE0CD0074EB30 /* Knobby */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC18E82D2A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "Knobby" */;
-			buildPhases = (
-				CC18E8062A5DE0CD0074EB30 /* Sources */,
-				CC18E8072A5DE0CD0074EB30 /* Frameworks */,
-				CC18E8082A5DE0CD0074EB30 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				CCC855612CB54CA80065B531 /* Knobby */,
-			);
-			name = Knobby;
-			productName = Knobby;
-			productReference = CC2F8C0A2DA4790600075E56 /* KnobbyDEBUG.app */;
-			productType = "com.apple.product-type.application";
-		};
 		7A4A9C6F2F904CEB00F4E001 /* KnobbyTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A4A9C752F904CEB00F4E001 /* Build configuration list for PBXNativeTarget "KnobbyTests" */;
@@ -131,6 +110,26 @@
 			productReference = 7A4A9C6C2F904CEB00F4E001 /* KnobbyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		CC18E8092A5DE0CD0074EB30 /* Knobby */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC18E82D2A5DE0CE0074EB30 /* Build configuration list for PBXNativeTarget "Knobby" */;
+			buildPhases = (
+				CC18E8062A5DE0CD0074EB30 /* Sources */,
+				CC18E8072A5DE0CD0074EB30 /* Frameworks */,
+				CC18E8082A5DE0CD0074EB30 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CCC855612CB54CA80065B531 /* Knobby */,
+			);
+			name = Knobby;
+			productName = Knobby;
+			productReference = CC2F8C0A2DA4790600075E56 /* KnobbyDEBUG.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -141,12 +140,12 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					CC18E8092A5DE0CD0074EB30 = {
-						CreatedOnToolsVersion = 14.3.1;
-					};
 					7A4A9C6F2F904CEB00F4E001 = {
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = CC18E8092A5DE0CD0074EB30;
+					};
+					CC18E8092A5DE0CD0074EB30 = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 				};
 			};
@@ -173,6 +172,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7A4A9C702F904CEB00F4E001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC18E8082A5DE0CD0074EB30 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,24 +187,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7A4A9C702F904CEB00F4E001 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CC18E8062A5DE0CD0074EB30 /* Sources */ = {
+		7A4A9C712F904CEB00F4E001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7A4A9C712F904CEB00F4E001 /* Sources */ = {
+		CC18E8062A5DE0CD0074EB30 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -216,6 +215,54 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7A4A9C732F904CEB00F4E001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyDEBUGTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KnobbyDEBUG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KnobbyDEBUG";
+			};
+			name = Debug;
+		};
+		7A4A9C742F904CEB00F4E001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
+			};
+			name = Release;
+		};
 		CC18E82B2A5DE0CE0074EB30 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -440,57 +487,18 @@
 			};
 			name = Release;
 		};
-		7A4A9C732F904CEB00F4E001 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyDEBUGTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KnobbyDEBUG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KnobbyDEBUG";
-			};
-			name = Debug;
-		};
-		7A4A9C742F904CEB00F4E001 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Knobby.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Knobby";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7A4A9C752F904CEB00F4E001 /* Build configuration list for PBXNativeTarget "KnobbyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A4A9C732F904CEB00F4E001 /* Debug */,
+				7A4A9C742F904CEB00F4E001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CC18E8052A5DE0CD0074EB30 /* Build configuration list for PBXProject "Knobby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -505,15 +513,6 @@
 			buildConfigurations = (
 				CC18E82E2A5DE0CE0074EB30 /* Debug */,
 				CC18E82F2A5DE0CE0074EB30 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7A4A9C752F904CEB00F4E001 /* Build configuration list for PBXNativeTarget "KnobbyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7A4A9C732F904CEB00F4E001 /* Debug */,
-				7A4A9C742F904CEB00F4E001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

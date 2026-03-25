@@ -1,12 +1,46 @@
+import AppKit
 import Carbon
 import SwiftUI
 
 struct ContentView: View {
   @Bindable var model: Model
+  let onToggle: () -> Void
+  let onOpenSettings: () -> Void
+  let onDismiss: () -> Void
+  let onQuit: () -> Void
   @FocusState private var focusedMetric: AdjustableMetric.Kind?
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
+    VStack(alignment: .leading, spacing: 20) {
+      HStack {
+        Spacer()
+
+        Menu {
+          Button("Toggle \(appName)") {
+            onToggle()
+          }
+
+          Divider()
+
+          Button("Settings") {
+            onOpenSettings()
+          }
+          .keyboardShortcut(",", modifiers: .command)
+
+          Divider()
+
+          Button("Quit \(appName)") {
+            onQuit()
+          }
+          .keyboardShortcut("q", modifiers: .command)
+        } label: {
+          Image(nsImage: NSImage(named: NSImage.actionTemplateName) ?? .init())
+        }
+        .menuStyle(.borderlessButton)
+        .menuIndicator(.hidden)
+        .fixedSize()
+      }
+
       ForEach(model.values) { metric in
         VStack(alignment: .leading, spacing: 8) {
           Text(metric.deviceName)
@@ -17,15 +51,22 @@ struct ContentView: View {
             Image(systemName: metric.imageName)
               .frame(width: 18)
 
-            Slider(
+            let slider = Slider(
               value: Binding(
                 get: { Double(metric.currentValue) },
                 set: { model.onSliderValueChanged(kind: metric.id, value: Float($0)) }
               ),
               in: 0...1
             )
-            .controlSize(.extraLarge)
             .focused($focusedMetric, equals: metric.id)
+            .disabled(!model.isVisible)
+            .animation(.default, value: metric.currentValue)
+
+            if #available(macOS 26.0, *) {
+              slider.controlSize(.extraLarge)
+            } else {
+              slider.controlSize(.large)
+            }
           }
         }
       }
@@ -36,8 +77,22 @@ struct ContentView: View {
     .onChange(of: model.focusedSetting) { _, newValue in
       focusedMetric = newValue
     }
+    .onChange(of: model.isVisible) { _, isVisible in
+      guard isVisible else {
+        focusedMetric = nil
+        return
+      }
+
+      focusedMetric = nil
+      DispatchQueue.main.async {
+        focusedMetric = model.focusedSetting
+      }
+    }
     .onAppear {
       focusedMetric = model.focusedSetting
+    }
+    .onExitCommand {
+      onDismiss()
     }
     .onKeyPress { press in
       switch press.key {
@@ -60,7 +115,7 @@ struct ContentView: View {
     .padding(20)
     .frame(width: .knobbyWidth, alignment: .leading)
     .fixedSize(horizontal: false, vertical: true)
-    .modifier(GlassBackgroundModifier())
+//    .modifier(GlassBackgroundModifier())
   }
 }
 
@@ -70,6 +125,12 @@ private struct GlassBackgroundModifier: ViewModifier {
       content.glassEffect(.regular)
     } else {
       content
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+        .overlay {
+          RoundedRectangle(cornerRadius: 8)
+            .stroke(.separator, lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 6)
     }
   }
 }
@@ -112,5 +173,11 @@ private struct GlassBackgroundModifier: ViewModifier {
     )
   )
   model.isVisible = true
-  return ContentView(model: model)
+  return ContentView(
+    model: model,
+    onToggle: {},
+    onOpenSettings: {},
+    onDismiss: {},
+    onQuit: {}
+  )
 }

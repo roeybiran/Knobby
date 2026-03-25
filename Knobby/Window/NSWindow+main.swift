@@ -9,7 +9,6 @@ extension NSWindow {
     panel.title = appName
     panel.styleMask = [.utilityWindow, .nonactivatingPanel, .closable]
     panel.hasShadow = false
-    panel.backgroundColor = .clear
     panel.titlebarAppearsTransparent = true
     panel.titleVisibility = .hidden
     panel.standardWindowButton(.closeButton)?.isHidden = true

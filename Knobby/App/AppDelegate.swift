@@ -39,14 +39,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     model.onToggleApp()
 
     if model.isVisible {
-      mainWindow.contentView?.layoutSubtreeIfNeeded()
-      mainWindow.setContentSize(
-        mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
-      )
-      mainWindow.makeKeyAndOrderFront(nil)
+      showMainWindow()
     } else {
-      mainWindow.orderOut(nil)
+      hideMainWindow(deactivateApp: true)
     }
+  }
+
+  @objc func dismissKnobby(_ sender: Any?) {
+    if model.isVisible {
+      model.onEscapePress()
+    }
+    hideMainWindow(deactivateApp: true)
   }
 
   @IBAction func orderFrontSettingsWindow(_ sender: Any?) {
@@ -64,11 +67,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     item.menu = .general()
     return item
   }()
+
+  private func showMainWindow() {
+    mainWindow.contentView?.layoutSubtreeIfNeeded()
+    mainWindow.setContentSize(
+      mainWindow.contentView?.fittingSize ?? .init(width: .knobbyWidth, height: 0)
+    )
+    if let screen = mainWindow.screen
+      ?? NSScreen.screens.first(where: { NSMouseInRect(NSEvent.mouseLocation, $0.frame, false) })
+      ?? NSScreen.main
+    {
+      let visibleFrame = screen.visibleFrame
+      mainWindow.setFrameTopLeftPoint(
+        .init(
+          x: round(visibleFrame.midX - mainWindow.frame.width / 2),
+          y: round(visibleFrame.maxY)
+        )
+      )
+    }
+    mainWindow.alphaValue = 0
+    mainWindow.makeKeyAndOrderFront(nil)
+    NSAnimationContext.runAnimationGroup { context in
+      context.duration = 0.3
+      mainWindow.animator().alphaValue = 1
+    }
+  }
+
+  private func hideMainWindow(deactivateApp: Bool) {
+    guard mainWindow.isVisible else { return }
+
+    NSAnimationContext.runAnimationGroup { context in
+      context.duration = 0.3
+      mainWindow.animator().alphaValue = 0
+    } completionHandler: {
+      self.mainWindow.orderOut(nil)
+      self.mainWindow.alphaValue = 1
+      if deactivateApp {
+        NSApplication.shared.deactivate()
+      }
+    }
+  }
 }
 
 extension AppDelegate: NSWindowDelegate {
   func windowDidResignKey(_ notification: Notification) {
     model.onResignKey()
-    mainWindow.orderOut(nil)
+    hideMainWindow(deactivateApp: false)
   }
 }
