@@ -6,7 +6,7 @@ extension NSWindow {
       contentRect: .init(origin: .zero, size: .zero),
       styleMask: [.closable, .titled],
       backing: .buffered,
-      defer: true
+      defer: true,
     )
     window.setFrameAutosaveName(.settingsWindow)
     window.isReleasedWhenClosed = false

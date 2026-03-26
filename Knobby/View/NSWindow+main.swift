@@ -1,5 +1,5 @@
 extension NSWindow {
-  static let main: Panel = {
+  static let main: NSPanel = {
     let panel = Panel()
     panel.hidesOnDeactivate = false
     panel.identifier = .mainWindow
@@ -21,4 +21,16 @@ extension NSWindow {
     #endif
     return panel
   }()
+}
+
+// MARK: - Panel
+
+private final class Panel: NSPanel {
+  override var canBecomeKey: Bool {
+    true
+  }
+
+  override var canBecomeMain: Bool {
+    true
+  }
 }

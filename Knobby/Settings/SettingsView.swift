@@ -1,7 +1,6 @@
-import SwiftUI
-import ServiceManagement
 import KeyboardShortcuts
-
+import ServiceManagement
+import SwiftUI
 
 struct SettingsView: View {
   let statusItem: NSStatusItem
@@ -12,7 +11,8 @@ struct SettingsView: View {
         get: { SMAppService.mainApp.status == .enabled },
         set: { isOn in
           try? isOn ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
-        }))
+        },
+      ))
       Toggle("Show Menu Bar Extra", isOn: Binding(get: {
         statusItem.isVisible
       }, set: { isOn in
@@ -22,7 +22,6 @@ struct SettingsView: View {
     }
     .formStyle(.grouped)
   }
-
 
 }
 

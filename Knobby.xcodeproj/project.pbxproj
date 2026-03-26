@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC0BE5AA2F75589E00C7E898 /* AirbnbSwiftFormatTool in Frameworks */ = {isa = PBXBuildFile; productRef = CC0BE5A92F75589E00C7E898 /* AirbnbSwiftFormatTool */; };
 		CC14F7BD2D9FF3D100131468 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC14F7BC2D9FF3D100131468 /* DisplayServices.framework */; };
 		CC8DEFD82CE7BB10003A1BB2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CC8DEFCA2CE7BB10003A1BB2 /* README.md */; };
 		CCD5B8622CE9FD4800019E8A /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CCD5B8612CE9FD4800019E8A /* KeyboardShortcuts */; };
@@ -38,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC0BE5AA2F75589E00C7E898 /* AirbnbSwiftFormatTool in Frameworks */,
 				CCD5B8622CE9FD4800019E8A /* KeyboardShortcuts in Frameworks */,
 				CC14F7BD2D9FF3D100131468 /* DisplayServices.framework in Frameworks */,
 			);
@@ -114,6 +116,7 @@
 			mainGroup = CC18E8012A5DE0CD0074EB30;
 			packageReferences = (
 				CCD5B8602CE9FD4800019E8A /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				CC0BE5A82F75589E00C7E898 /* XCRemoteSwiftPackageReference "swift" */,
 			);
 			productRefGroup = CC18E8012A5DE0CD0074EB30;
 			projectDirPath = "";
@@ -309,6 +312,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.KnobbyDEBUG;
 				PRODUCT_NAME = "$(TARGET_NAME)DEBUG";
@@ -356,6 +360,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roeybiran.Knobby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -394,6 +399,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CC0BE5A82F75589E00C7E898 /* XCRemoteSwiftPackageReference "swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		CCD5B8602CE9FD4800019E8A /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -405,6 +418,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CC0BE5A92F75589E00C7E898 /* AirbnbSwiftFormatTool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC0BE5A82F75589E00C7E898 /* XCRemoteSwiftPackageReference "swift" */;
+			productName = AirbnbSwiftFormatTool;
+		};
 		CCD5B8612CE9FD4800019E8A /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CCD5B8602CE9FD4800019E8A /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;

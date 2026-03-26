@@ -11,7 +11,9 @@ struct AdjustableMetric: Identifiable, Hashable {
   let deviceName: String
   var currentValue: Float
 
-  var id: Kind { kind }
+  var id: Kind {
+    kind
+  }
 
   var imageName: String {
     switch kind {

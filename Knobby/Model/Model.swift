@@ -4,25 +4,27 @@ import Observation
 @MainActor
 @Observable
 final class Model {
-  private(set) var values: [AdjustableMetric]
-  private(set) var focusedSetting: AdjustableMetric.Kind?
-  private(set) var isVisible = false
 
-  private let audioToolboxClient: AudioToolboxClient
-  private let brightnessClient: BrightnessClient
+  // MARK: Lifecycle
 
   init(
     audioToolboxClient: AudioToolboxClient = .liveValue,
-    brightnessClient: BrightnessClient = .liveValue
+    brightnessClient: BrightnessClient = .liveValue,
   ) {
     self.audioToolboxClient = audioToolboxClient
     self.brightnessClient = brightnessClient
-    self.values = Self.makeValues(
+    values = Self.makeValues(
       audioToolboxClient: audioToolboxClient,
-      brightnessClient: brightnessClient
+      brightnessClient: brightnessClient,
     )
-    self.focusedSetting = self.values.first?.id
+    focusedSetting = values.first?.id
   }
+
+  // MARK: Internal
+
+  private(set) var values: [AdjustableMetric]
+  private(set) var focusedSetting: AdjustableMetric.Kind?
+  private(set) var isVisible = false
 
   func onIncrease() {
     guard let index = indexForFocusedSetting() else { return }
@@ -62,7 +64,7 @@ final class Model {
     let previouslyFocusedSetting = focusedSetting
     values = Self.makeValues(
       audioToolboxClient: audioToolboxClient,
-      brightnessClient: brightnessClient
+      brightnessClient: brightnessClient,
     )
 
     if let previouslyFocusedSetting, values.contains(where: { $0.id == previouslyFocusedSetting }) {
@@ -80,6 +82,32 @@ final class Model {
     isVisible = false
   }
 
+  // MARK: Private
+
+  private let audioToolboxClient: AudioToolboxClient
+  private let brightnessClient: BrightnessClient
+
+  private static func makeValues(
+    audioToolboxClient: AudioToolboxClient,
+    brightnessClient: BrightnessClient,
+  ) -> [AdjustableMetric] {
+    let outputMetrics = audioToolboxClient.outputDevices().map { device in
+      AdjustableMetric(
+        kind: .outputDevice(device.id),
+        deviceName: device.name,
+        currentValue: audioToolboxClient.getVolume(device.id),
+      )
+    }
+    let displayMetrics = brightnessClient.displays().map { display in
+      AdjustableMetric(
+        kind: .displayDevice(display.id),
+        deviceName: display.name,
+        currentValue: brightnessClient.getBrightness(display.id),
+      )
+    }
+    return outputMetrics + displayMetrics
+  }
+
   private func indexForFocusedSetting() -> Int? {
     guard let focusedSetting else { return nil }
     return values.firstIndex(where: { $0.id == focusedSetting })
@@ -90,31 +118,11 @@ final class Model {
     values[index].currentValue = clampedValue
 
     switch values[index].kind {
-    case let .outputDevice(deviceID):
+    case .outputDevice(let deviceID):
       audioToolboxClient.setVolume(deviceID, clampedValue)
-    case let .displayDevice(displayID):
+    case .displayDevice(let displayID):
       brightnessClient.setBrightness(displayID, clampedValue)
     }
   }
 
-  private static func makeValues(
-    audioToolboxClient: AudioToolboxClient,
-    brightnessClient: BrightnessClient
-  ) -> [AdjustableMetric] {
-    let outputMetrics = audioToolboxClient.outputDevices().map { device in
-      AdjustableMetric(
-        kind: .outputDevice(device.id),
-        deviceName: device.name,
-        currentValue: audioToolboxClient.getVolume(device.id)
-      )
-    }
-    let displayMetrics = brightnessClient.displays().map { display in
-      AdjustableMetric(
-        kind: .displayDevice(display.id),
-        deviceName: display.name,
-        currentValue: brightnessClient.getBrightness(display.id)
-      )
-    }
-    return outputMetrics + displayMetrics
-  }
 }

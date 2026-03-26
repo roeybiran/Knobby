@@ -1,39 +1,22 @@
 import AppKit
-import Foundation
 import Carbon
+import Foundation
+import Observation
 
 final class ViewController: NSViewController {
+
+  // MARK: Lifecycle
+
   init(model: Model) {
     self.model = model
     super.init(nibName: nil, bundle: nil)
   }
 
-  required init?(coder: NSCoder) {
+  required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private let model: Model
-  private let stack: NSStackView = {
-    let stack = NSStackView()
-    stack.orientation = .vertical
-    stack.spacing = 20
-    stack.edgeInsets = .init(top: 60, left: 0, bottom: 20, right: 0)
-    stack.translatesAutoresizingMaskIntoConstraints = false
-    return stack
-  }()
-  private let button: NSPopUpButton = {
-    let button = NSPopUpButton(
-      image: NSImage(named: NSImage.actionTemplateName) ?? .init(),
-      pullDownMenu: .general()
-    )
-    button.isBordered = false
-    button.refusesFirstResponder = true
-    button.translatesAutoresizingMaskIntoConstraints = false
-    return button
-  }()
-  private var slidersByKind = [AdjustableMetric.Kind: NSSlider]()
-  private var sliderKindsByIdentifier = [ObjectIdentifier: AdjustableMetric.Kind]()
-  private var visibleMetricKinds = [AdjustableMetric.Kind]()
+  // MARK: Internal
 
   override func keyDown(with event: NSEvent) {
     switch Int(event.keyCode) {
@@ -53,134 +36,74 @@ final class ViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    stack.addSubview(button)
-    rebuildMetricRows()
+    allSlidersStack.addSubview(button)
 
-    let container: NSView
-
-    if #available(macOS 26.0, *) {
-      let glass = NSGlassEffectView()
-      glass.contentView = stack
-      container = glass
-    } else {
-      // Fallback on earlier versions
-      let box = NSBox()
-      box.boxType = .custom
-      box.borderWidth = 1
-      box.borderColor = .separatorColor
-      box.cornerRadius = 8
-      box.fillColor = .windowBackgroundColor
-      box.contentViewMargins = .zero
-
-      let shadow = NSShadow()
-      shadow.shadowOffset = .init(width: 0, height: -6)
-      shadow.shadowBlurRadius = 20
-      shadow.shadowColor = .black.withAlphaComponent(0.5)
-      box.shadow = shadow
-
-      let visualEffectView = NSVisualEffectView()
-      visualEffectView.material = .hudWindow
-      visualEffectView.wantsLayer = true
-      visualEffectView.layer?.cornerRadius = 8
-      visualEffectView.addSubview(stack)
-
-      box.contentView = visualEffectView
-      container = box
-    }
-
-    container.wantsLayer = true
+    let container = NSGlassEffectView()
+    container.contentView = allSlidersStack
     container.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(container)
 
-    self.container = container
-
     NSLayoutConstraint.activate(
       [
-        stack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-        stack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-        stack.topAnchor.constraint(equalTo: container.topAnchor),
-        stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+        allSlidersStack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+        allSlidersStack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+        allSlidersStack.topAnchor.constraint(equalTo: container.topAnchor),
+        allSlidersStack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
 
-        button.topAnchor.constraint(equalTo: stack.topAnchor, constant: 14),
-        button.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -20),
+        button.topAnchor.constraint(equalTo: allSlidersStack.topAnchor, constant: 14),
+        button.trailingAnchor.constraint(equalTo: allSlidersStack.trailingAnchor, constant: -20),
 
         container.topAnchor.constraint(equalTo: view.topAnchor),
         container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         container.widthAnchor.constraint(equalToConstant: .knobbyWidth),
       ]
     )
+
+    render(values: model.values)
   }
 
-  private var container: NSView?
-  private var isViewVisible = false
+  override func viewDidLayout() {
+    super.viewDidLayout()
 
-  override func updateViewConstraints() {
-    super.updateViewConstraints()
+    Task {
+      let observations = Observations<[AdjustableMetric], Never> { [weak self] in
+        guard let self else { return [] }
+        return model.values
+      }
 
-    rebuildMetricRows()
-
-    for metric in model.values {
-      slidersByKind[metric.id]?.animator().floatValue = metric.currentValue
-    }
-
-    if model.isVisible != isViewVisible {
-      isViewVisible = model.isVisible
-      guard
-        let window = view.window,
-        let frame = NSScreen.main?.frame,
-        let targetView = container,
-        let targetLayer = targetView.layer
-      else { return assertionFailure() }
-
-      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
-      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
-      let springAnimation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
-      springAnimation.keyPath = "transform.scale"
-      if model.isVisible {
-        window.setFrame(frame, display: true, animate: false)
-        window.makeKeyAndOrderFront(nil)
-        window.animator().alphaValue = 1
-        springAnimation.fromValue = CATransform3DMakeScale(0, 0, 0)
-        targetLayer.add(springAnimation, forKey: "transformAnim")
-        slidersByKind.values.forEach { $0.isEnabled = true }
-        if
-          let focusedSetting = model.focusedSetting,
-          let slider = slidersByKind[focusedSetting]
-        {
-          window.makeFirstResponder(slider)
-        }
-      } else {
-        springAnimation.toValue = CATransform3DMakeScale(0, 0, 0)
-        targetLayer.add(springAnimation, forKey: "transformAnim")
-        slidersByKind.values.forEach { $0.isEnabled = false }
-        window.animator().alphaValue = 0
-        NSApplication.shared.deactivate()
+      for await change in observations {
+        render(values: change)
       }
     }
   }
 
-  @IBAction func increase(_ sender: Any?) {
+  @IBAction
+  func increase(_: Any?) {
     model.onIncrease()
   }
 
-  @IBAction func decrease(_ sender: Any?) {
+  @IBAction
+  func decrease(_: Any?) {
     model.onDecrease()
   }
 
-  @IBAction func minimize(_ sender: Any?) {
+  @IBAction
+  func minimize(_: Any?) {
     model.onMinimize()
   }
 
-  @IBAction func maximize(_ sender: Any?) {
+  @IBAction
+  func maximize(_: Any?) {
     model.onMaximize()
   }
 
-  @objc func changeSliderValue(_ sender: NSSlider) {
+  @objc
+  func changeSliderValue(_ sender: NSSlider) {
     guard let kind = sliderKindsByIdentifier[ObjectIdentifier(sender)] else { return }
     model.onSliderValueChanged(kind: kind, value: sender.floatValue)
   }
 
-  override func cancelOperation(_ sender: Any?) {
+  override func cancelOperation(_: Any?) {
     model.onEscapePress()
   }
 
@@ -189,20 +112,57 @@ final class ViewController: NSViewController {
     return sliderKindsByIdentifier[ObjectIdentifier(slider)]
   }
 
+  func slider(for kind: AdjustableMetric.Kind?) -> NSSlider? {
+    guard let kind else { return nil }
+    return slidersByKind[kind]
+  }
+
   override func loadView() {
     view = NSView()
   }
 
-  private func rebuildMetricRows() {
-    let metricKinds = model.values.map(\.id)
+  // MARK: Private
+
+  private let model: Model
+
+  private let allSlidersStack: NSStackView = {
+    let stack = NSStackView()
+    stack.orientation = .vertical
+    stack.spacing = 20
+    stack.edgeInsets = .init(top: 60, left: 0, bottom: 20, right: 0)
+    stack.translatesAutoresizingMaskIntoConstraints = false
+    return stack
+  }()
+
+  private let button: NSPopUpButton = {
+    let button = NSPopUpButton(
+      image: NSImage(named: NSImage.actionTemplateName) ?? .init(),
+      pullDownMenu: .general(),
+    )
+    button.isBordered = false
+    button.refusesFirstResponder = true
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+
+  private var slidersByKind = [AdjustableMetric.Kind: NSSlider]()
+  private var sliderKindsByIdentifier = [ObjectIdentifier: AdjustableMetric.Kind]()
+  private var visibleMetricKinds = [AdjustableMetric.Kind]()
+
+  private func render(values: [AdjustableMetric]) {
+    for value in values {
+      slidersByKind[value.id]?.floatValue = value.currentValue
+    }
+
+    let metricKinds = values.map(\.id)
     guard metricKinds != visibleMetricKinds else { return }
 
     visibleMetricKinds = metricKinds
     sliderKindsByIdentifier.removeAll()
     slidersByKind.removeAll()
 
-    stack.arrangedSubviews.forEach { arrangedSubview in
-      stack.removeArrangedSubview(arrangedSubview)
+    for arrangedSubview in allSlidersStack.arrangedSubviews {
+      allSlidersStack.removeArrangedSubview(arrangedSubview)
       arrangedSubview.removeFromSuperview()
     }
 
@@ -214,34 +174,44 @@ final class ViewController: NSViewController {
       let image = NSImage(systemSymbolName: metric.imageName, accessibilityDescription: nil)
       let imageView = NSImageView(image: image ?? .init())
       imageView.translatesAutoresizingMaskIntoConstraints = false
-      imageView.widthAnchor.constraint(equalToConstant: 18).isActive = true
 
       let slider = NSSlider(
         value: Double(metric.currentValue),
         minValue: .zero,
         maxValue: 1,
         target: self,
-        action: #selector(changeSliderValue)
+        action: #selector(changeSliderValue),
       )
-      if #available(macOS 26.0, *) {
-        slider.controlSize = .extraLarge
-      } else {
-        slider.controlSize = .large
-      }
+      slider.controlSize = .extraLarge
 
       let controls = NSStackView(views: [imageView, slider])
       controls.orientation = .horizontal
-      controls.spacing = 12
       controls.alignment = .centerY
 
       let row = NSStackView(views: [title, controls])
+      row.alignment = .leading
       row.orientation = .vertical
-      row.spacing = 8
-      row.edgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+      row.edgeInsets = .init(
+        top: 0,
+        left: 20,
+        bottom: 0,
+        right: 20,
+      )
 
       slidersByKind[metric.id] = slider
       sliderKindsByIdentifier[ObjectIdentifier(slider)] = metric.id
-      stack.addArrangedSubview(row)
+
+      allSlidersStack.addArrangedSubview(row)
+
+      NSLayoutConstraint.activate([
+        imageView.widthAnchor.constraint(equalToConstant: 16),
+        row.widthAnchor.constraint(equalTo: allSlidersStack.widthAnchor),
+      ])
+    }
+
+    for metric in values {
+      slidersByKind[metric.id]?.floatValue = metric.currentValue
     }
   }
+
 }
