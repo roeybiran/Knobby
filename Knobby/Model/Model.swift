@@ -6,10 +6,9 @@ import Observation
 final class Model {
   var values: [AdjustableMetric]
   var focusedSetting: AdjustableMetric.Kind?
-  var isVisible = false
 
-  private let audioToolboxClient: AudioToolboxClient
-  private let brightnessClient: BrightnessClient
+  @ObservationIgnored private let audioToolboxClient: AudioToolboxClient
+  @ObservationIgnored private let brightnessClient: BrightnessClient
 
   init(
     audioToolboxClient: AudioToolboxClient = .liveValue,
@@ -22,6 +21,20 @@ final class Model {
       brightnessClient: brightnessClient
     )
     self.focusedSetting = self.values.first?.id
+  }
+
+  func refresh() {
+    let previouslyFocusedSetting = focusedSetting
+    values = Self.makeValues(
+      audioToolboxClient: audioToolboxClient,
+      brightnessClient: brightnessClient
+    )
+
+    if let previouslyFocusedSetting, values.contains(where: { $0.id == previouslyFocusedSetting }) {
+      focusedSetting = previouslyFocusedSetting
+    } else {
+      focusedSetting = values.first?.id
+    }
   }
 
   func onIncrease() {
@@ -51,33 +64,6 @@ final class Model {
 
   func onFocusedMetricChanged(_ kind: AdjustableMetric.Kind?) {
     focusedSetting = kind
-  }
-
-  func onToggleApp() {
-    isVisible.toggle()
-    if !isVisible {
-      return
-    }
-
-    let previouslyFocusedSetting = focusedSetting
-    values = Self.makeValues(
-      audioToolboxClient: audioToolboxClient,
-      brightnessClient: brightnessClient
-    )
-
-    if let previouslyFocusedSetting, values.contains(where: { $0.id == previouslyFocusedSetting }) {
-      focusedSetting = previouslyFocusedSetting
-    } else {
-      focusedSetting = values.first?.id
-    }
-  }
-
-  func onEscapePress() {
-    isVisible = false
-  }
-
-  func onResignKey() {
-    isVisible = false
   }
 
   private func indexForFocusedSetting() -> Int? {

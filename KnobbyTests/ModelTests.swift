@@ -4,7 +4,7 @@ import Testing
 @MainActor
 struct `Model Tests` {
   @Test
-  func `onToggleApp, should rebuild controls in output then display order`() {
+  func `refresh, should rebuild controls in output then display order`() {
     let model = Model(
       audioToolboxClient: .init(
         outputDevices: {
@@ -42,9 +42,8 @@ struct `Model Tests` {
       )
     )
 
-    model.onToggleApp()
+    model.refresh()
 
-    #expect(model.isVisible)
     #expect(model.focusedSetting == .outputDevice(3))
     #expect(
       model.values == [
@@ -74,7 +73,7 @@ struct `Model Tests` {
       )
     )
 
-    model.onToggleApp()
+    model.refresh()
 
     model.onIncrease()
     #expect(abs(model.values[0].currentValue - 0.5) < 0.0001)
@@ -111,7 +110,7 @@ struct `Model Tests` {
       )
     )
 
-    model.onToggleApp()
+    model.refresh()
     model.onSliderValueChanged(kind: .displayDevice(11), value: 0.9)
 
     #expect(abs(model.values[0].currentValue - 0.9) < 0.0001)
@@ -119,7 +118,7 @@ struct `Model Tests` {
   }
 
   @Test
-  func `onToggleApp, when focused device disappears, should focus the first available control`() {
+  func `refresh, when focused device disappears, should focus the first available control`() {
     let outputDevices = [
       AudioToolboxClient.Device(id: 1, name: "MacBook Speakers"),
       AudioToolboxClient.Device(id: 2, name: "Headphones"),
@@ -148,12 +147,12 @@ struct `Model Tests` {
       )
     )
 
-    model.onToggleApp()
+    model.refresh()
     model.onFocusedMetricChanged(.displayDevice(11))
-    model.onToggleApp()
+    model.refresh()
 
     displays = []
-    model.onToggleApp()
+    model.refresh()
 
     #expect(model.focusedSetting == .outputDevice(1))
   }

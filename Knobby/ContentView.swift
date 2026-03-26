@@ -1,15 +1,10 @@
-import AppKit
-import Carbon
 import SwiftUI
 
 struct ContentView: View {
+  @Environment(\.floatingPanel) private var floatingPanel
   @Bindable var model: Model
-  let onToggle: () -> Void
   let onOpenSettings: () -> Void
-  let onDismiss: () -> Void
-  let onQuit: () -> Void
   @FocusState private var focusedMetric: AdjustableMetric.Kind?
-  private let topInset = CGFloat(40)
 
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
@@ -31,7 +26,6 @@ struct ContentView: View {
               in: 0...1
             )
             .focused($focusedMetric, equals: metric.id)
-            .disabled(!model.isVisible)
             .animation(.default, value: metric.currentValue)
 
             if #available(macOS 26.0, *) {
@@ -45,28 +39,20 @@ struct ContentView: View {
       }
     }
     .padding()
-    .padding(.top, topInset)
-    .overlay(alignment: .topTrailing) {
-      Menu {
-        Button("Toggle \(appName)") {
-          onToggle()
+    .toolbar {
+      ToolbarItem {
+        Menu {
+          Button("Refresh", systemImage: "arrow.clockwise") {
+            model.refresh()
+          }
+          Divider()
+          Button("Settings...", systemImage: "gearshape") {
+            onOpenSettings()
+          }
+        } label: {
+          Image(systemName: "ellipsis.circle")
         }
-        Divider()
-        Button("Settings") {
-          onOpenSettings()
-        }
-        .keyboardShortcut(",", modifiers: .command)
-        Divider()
-        Button("Quit \(appName)") {
-          onQuit()
-        }
-        .keyboardShortcut("q", modifiers: .command)
-      } label: {
-        Image(nsImage: NSImage(named: NSImage.actionTemplateName) ?? .init())
       }
-      .menuStyle(.borderlessButton)
-      .menuIndicator(.hidden)
-      .padding()
     }
     .onChange(of: focusedMetric) { _, newValue in
       model.onFocusedMetricChanged(newValue)
@@ -74,22 +60,12 @@ struct ContentView: View {
     .onChange(of: model.focusedSetting) { _, newValue in
       focusedMetric = newValue
     }
-    .onChange(of: model.isVisible) { _, isVisible in
-      guard isVisible else {
-        focusedMetric = nil
-        return
-      }
-
-      focusedMetric = nil
-      DispatchQueue.main.async {
-        focusedMetric = model.focusedSetting
-      }
-    }
     .onAppear {
+      model.refresh()
       focusedMetric = model.focusedSetting
     }
     .onExitCommand {
-      onDismiss()
+      floatingPanel?.close()
     }
     .onKeyPress { press in
       switch press.key {
@@ -110,22 +86,7 @@ struct ContentView: View {
       }
     }
     .frame(width: .knobbyWidth, alignment: .leading)
-    .modifier(GlassBackgroundModifier())
-  }
-}
-
-private struct GlassBackgroundModifier: ViewModifier {
-  func body(content: Content) -> some View {
-    if #available(macOS 26.0, *) {
-      content.glassEffect(
-        .regular,
-        in: RoundedRectangle(
-          cornerRadius: 8
-        )
-      )
-    } else {
-      content
-    }
+    .glassEffect()
   }
 }
 
@@ -166,12 +127,8 @@ private struct GlassBackgroundModifier: ViewModifier {
       setBrightness: { _, _ in }
     )
   )
-  model.isVisible = true
   return ContentView(
     model: model,
-    onToggle: {},
-    onOpenSettings: {},
-    onDismiss: {},
-    onQuit: {}
+    onOpenSettings: {}
   )
 }
