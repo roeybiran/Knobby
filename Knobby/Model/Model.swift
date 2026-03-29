@@ -24,7 +24,6 @@ final class Model {
 
   private(set) var values: [AdjustableMetric]
   private(set) var focusedSetting: AdjustableMetric.Kind?
-  private(set) var isVisible = false
 
   func onIncrease() {
     guard let index = indexForFocusedSetting() else { return }
@@ -55,12 +54,7 @@ final class Model {
     focusedSetting = kind
   }
 
-  func onToggleApp() {
-    isVisible.toggle()
-    if !isVisible {
-      return
-    }
-
+  func refresh() {
     let previouslyFocusedSetting = focusedSetting
     values = Self.makeValues(
       audioToolboxClient: audioToolboxClient,
@@ -72,14 +66,6 @@ final class Model {
     } else {
       focusedSetting = values.first?.id
     }
-  }
-
-  func onEscapePress() {
-    isVisible = false
-  }
-
-  func onResignKey() {
-    isVisible = false
   }
 
   // MARK: Private

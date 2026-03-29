@@ -7,7 +7,8 @@ final class ViewController: NSViewController {
 
   // MARK: Lifecycle
 
-  init(model: Model) {
+  init(model: Model, onDismiss: @escaping () -> Void = {}) {
+    self.onDismiss = onDismiss
     self.model = model
     super.init(nibName: nil, bundle: nil)
   }
@@ -104,12 +105,7 @@ final class ViewController: NSViewController {
   }
 
   override func cancelOperation(_: Any?) {
-    model.onEscapePress()
-  }
-
-  func kind(for responder: NSResponder?) -> AdjustableMetric.Kind? {
-    guard let slider = responder as? NSSlider else { return nil }
-    return sliderKindsByIdentifier[ObjectIdentifier(slider)]
+    onDismiss()
   }
 
   func slider(for kind: AdjustableMetric.Kind?) -> NSSlider? {
@@ -124,6 +120,7 @@ final class ViewController: NSViewController {
   // MARK: Private
 
   private let model: Model
+  private let onDismiss: () -> Void
 
   private let allSlidersStack: NSStackView = {
     let stack = NSStackView()
@@ -175,7 +172,7 @@ final class ViewController: NSViewController {
       let imageView = NSImageView(image: image ?? .init())
       imageView.translatesAutoresizingMaskIntoConstraints = false
 
-      let slider = NSSlider(
+      let slider = FocusTrackingSlider(
         value: Double(metric.currentValue),
         minValue: .zero,
         maxValue: 1,
@@ -183,6 +180,9 @@ final class ViewController: NSViewController {
         action: #selector(changeSliderValue),
       )
       slider.controlSize = .extraLarge
+      slider.onBecomeFirstResponder = { [weak self] in
+        self?.model.onFocusedMetricChanged(metric.id)
+      }
 
       let controls = NSStackView(views: [imageView, slider])
       controls.orientation = .horizontal
@@ -214,4 +214,16 @@ final class ViewController: NSViewController {
     }
   }
 
+}
+
+private final class FocusTrackingSlider: NSSlider {
+  var onBecomeFirstResponder: (() -> Void)?
+
+  override func becomeFirstResponder() -> Bool {
+    let becameFirstResponder = super.becomeFirstResponder()
+    if becameFirstResponder {
+      onBecomeFirstResponder?()
+    }
+    return becameFirstResponder
+  }
 }

@@ -12,7 +12,7 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 extension NSWindow.FrameAutosaveName {
-  static let settingsWindow = Self("MainWindow")
+  static let settingsWindow = Self("SettingsWindow")
 }
 
 extension KeyboardShortcuts.Name {

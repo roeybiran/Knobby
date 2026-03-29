@@ -1,6 +1,5 @@
 import Cocoa
 import KeyboardShortcuts
-import Observation
 import SwiftUI
 
 // MARK: - AppDelegate
@@ -13,7 +12,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_: Notification) {
     NSApplication.shared.setActivationPolicy(.accessory)
 
-    mainWindow.contentViewController = ViewController(model: model)
+    mainWindow.contentViewController = ViewController(model: model) { [weak self] in
+      self?.dismissKnobby()
+    }
     mainWindow.delegate = self
 
     let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem).fixedSize())
@@ -22,21 +23,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     KeyboardShortcuts.onKeyDown(for: .toggleKnobby) { [weak self] in
       self?.toggleKnobby(nil)
     }
-
-    firstResponderObservation = mainWindow.observe(\.firstResponder, options: [.initial, .new]) { [weak self] window, value in
-      Task { @MainActor in
-        guard
-          let self,
-          let viewController = window.contentViewController as? ViewController
-        else { return }
-
-        self.model.onFocusedMetricChanged(
-          viewController.kind(for: value.newValue ?? window.firstResponder)
-        )
-      }
-    }
-
-    observeMainWindowVisibility()
   }
 
   func applicationSupportsSecureRestorableState(_: NSApplication) -> Bool {
@@ -44,14 +30,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows _: Bool) -> Bool {
-    toggleKnobby(sender)
+    if !isVisible {
+      showKnobby()
+    }
     NSApplication.shared.activate()
     return false
   }
 
   @objc
   func toggleKnobby(_: Any?) {
-    model.onToggleApp()
+    if isVisible {
+      dismissKnobby()
+    } else {
+      showKnobby()
+    }
   }
 
   @IBAction
@@ -65,8 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private let mainWindow = NSWindow.main
   private let settingsWindow = NSWindow.settings
   private let model = Model()
-  private var firstResponderObservation: NSKeyValueObservation?
-  private var isMainWindowVisible = false
+  private var isVisible = false
 
   private let statusItem: NSStatusItem = {
     let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -79,37 +70,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     return item
   }()
 
-  private func observeMainWindowVisibility() {
-    withObservationTracking {
-      updateMainWindowVisibility()
-    } onChange: { [weak self] in
-      Task { @MainActor [weak self] in
-        self?.observeMainWindowVisibility()
-      }
-    }
+  private func showKnobby() {
+    guard let frame = NSScreen.main?.frame else { return }
+
+    mainWindow.setFrame(frame, display: true, animate: false)
+    mainWindow.alphaValue = 1
+    mainWindow.makeKeyAndOrderFront(nil)
   }
 
-  private func updateMainWindowVisibility() {
-    guard model.isVisible != isMainWindowVisible else { return }
-
-    if model.isVisible {
-      guard let frame = NSScreen.main?.frame else { return }
-
-      isMainWindowVisible = true
-      mainWindow.setFrame(frame, display: true, animate: false)
-      mainWindow.alphaValue = 1
-      mainWindow.makeKeyAndOrderFront(nil)
-
-      guard
-        let viewController = mainWindow.contentViewController as? ViewController,
-        let slider = viewController.slider(for: model.focusedSetting)
-      else { return }
-
-      mainWindow.makeFirstResponder(slider)
-      return
-    }
-
-    isMainWindowVisible = false
+  private func dismissKnobby() {
+    guard isVisible else { return }
+    isVisible = false
     mainWindow.orderOut(nil)
     NSApplication.shared.deactivate()
   }
@@ -119,7 +90,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 // MARK: NSWindowDelegate
 
 extension AppDelegate: NSWindowDelegate {
+  func windowDidBecomeKey(_: Notification) {
+    isVisible = true
+    model.refresh()
+
+    guard
+      let viewController = mainWindow.contentViewController as? ViewController,
+      let slider = viewController.slider(for: model.focusedSetting)
+    else { return }
+
+    mainWindow.makeFirstResponder(slider)
+  }
+
   func windowDidResignKey(_: Notification) {
-    model.onResignKey()
+    dismissKnobby()
   }
 }

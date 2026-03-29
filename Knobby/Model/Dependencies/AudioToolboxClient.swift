@@ -80,26 +80,25 @@ struct AudioToolboxClient {
           ) == noErr
         else { return nil }
 
-        let streamConfigurationPointer = UnsafeMutableRawPointer.allocate(
-          byteCount: Int(streamConfigurationSize),
-          alignment: MemoryLayout<AudioBufferList>.alignment,
-        )
-        defer { streamConfigurationPointer.deallocate() }
+        var streamConfigurationBytes = [UInt8](repeating: 0, count: Int(streamConfigurationSize))
+        let hasOutputChannels = streamConfigurationBytes.withUnsafeMutableBytes { bytes in
+          guard
+            let baseAddress = bytes.baseAddress,
+            AudioObjectGetPropertyData(
+              deviceID,
+              &streamConfigurationAddress,
+              0,
+              nil,
+              &streamConfigurationSize,
+              baseAddress,
+            ) == noErr
+          else { return false }
 
-        guard
-          AudioObjectGetPropertyData(
-            deviceID,
-            &streamConfigurationAddress,
-            0,
-            nil,
-            &streamConfigurationSize,
-            streamConfigurationPointer,
-          ) == noErr
-        else { return nil }
-
-        let bufferList = streamConfigurationPointer.assumingMemoryBound(to: AudioBufferList.self)
-        let outputBuffers = UnsafeMutableAudioBufferListPointer(bufferList)
-        if !outputBuffers.contains(where: { $0.mNumberChannels > 0 }) {
+          let bufferList = baseAddress.assumingMemoryBound(to: AudioBufferList.self)
+          let outputBuffers = UnsafeMutableAudioBufferListPointer(bufferList)
+          return outputBuffers.contains(where: { $0.mNumberChannels > 0 })
+        }
+        if !hasOutputChannels {
           return nil
         }
 
@@ -123,8 +122,8 @@ struct AudioToolboxClient {
           mScope: kAudioObjectPropertyScopeGlobal,
           mElement: kAudioObjectPropertyElementMain,
         )
-        var name = "" as CFString
-        var nameSize = UInt32(MemoryLayout<CFString>.size)
+        var name: Unmanaged<CFString>?
+        var nameSize = UInt32(MemoryLayout.size(ofValue: name))
         guard
           AudioObjectGetPropertyData(
             deviceID,
@@ -133,10 +132,11 @@ struct AudioToolboxClient {
             nil,
             &nameSize,
             &name,
-          ) == noErr
+          ) == noErr,
+          let name
         else { return nil }
 
-        return Device(id: deviceID, name: name as String)
+        return Device(id: deviceID, name: name.takeUnretainedValue() as String)
       }
       .sorted { lhs, rhs in
         if lhs.id == defaultDevice {
