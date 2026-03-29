@@ -17,61 +17,65 @@ final class Model {
       audioToolboxClient: audioToolboxClient,
       brightnessClient: brightnessClient,
     )
-    focusedSetting = values.first?.id
+    stopObservingOutputDevices = audioToolboxClient.observeOutputDevices { [weak self] in
+      Task { @MainActor in
+        self?.refresh()
+      }
+    }
+    stopObservingDisplays = brightnessClient.observeDisplays { [weak self] in
+      Task { @MainActor in
+        self?.refresh()
+      }
+    }
+  }
+
+  isolated deinit {
+    stopObservingOutputDevices()
+    stopObservingDisplays()
   }
 
   // MARK: Internal
 
   private(set) var values: [AdjustableMetric]
-  private(set) var focusedSetting: AdjustableMetric.Kind?
 
-  func onIncrease() {
-    guard let index = indexForFocusedSetting() else { return }
+  func increase(_ kind: AdjustableMetric.Kind) {
+    guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
     applyValue(values[index].currentValue + 0.1, at: index)
   }
 
-  func onMaximize() {
-    guard let index = indexForFocusedSetting() else { return }
+  func maximize(_ kind: AdjustableMetric.Kind) {
+    guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
     applyValue(1, at: index)
   }
 
-  func onMinimize() {
-    guard let index = indexForFocusedSetting() else { return }
+  func minimize(_ kind: AdjustableMetric.Kind) {
+    guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
     applyValue(.zero, at: index)
   }
 
-  func onDecrease() {
-    guard let index = indexForFocusedSetting() else { return }
+  func decrease(_ kind: AdjustableMetric.Kind) {
+    guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
     applyValue(values[index].currentValue - 0.1, at: index)
   }
 
-  func onSliderValueChanged(kind: AdjustableMetric.Kind, value: Float) {
+  func setValue(kind: AdjustableMetric.Kind, value: Float) {
     guard let index = values.firstIndex(where: { $0.id == kind }) else { return }
     applyValue(value, at: index)
   }
 
-  func onFocusedMetricChanged(_ kind: AdjustableMetric.Kind?) {
-    focusedSetting = kind
-  }
-
   func refresh() {
-    let previouslyFocusedSetting = focusedSetting
     values = Self.makeValues(
       audioToolboxClient: audioToolboxClient,
       brightnessClient: brightnessClient,
     )
-
-    if let previouslyFocusedSetting, values.contains(where: { $0.id == previouslyFocusedSetting }) {
-      focusedSetting = previouslyFocusedSetting
-    } else {
-      focusedSetting = values.first?.id
-    }
   }
 
   // MARK: Private
 
   private let audioToolboxClient: AudioToolboxClient
   private let brightnessClient: BrightnessClient
+  private var stopObservingOutputDevices: () -> Void = {}
+  private var stopObservingDisplays: () -> Void = {}
 
   private static func makeValues(
     audioToolboxClient: AudioToolboxClient,
@@ -92,11 +96,6 @@ final class Model {
       )
     }
     return outputMetrics + displayMetrics
-  }
-
-  private func indexForFocusedSetting() -> Int? {
-    guard let focusedSetting else { return nil }
-    return values.firstIndex(where: { $0.id == focusedSetting })
   }
 
   private func applyValue(_ value: Float, at index: Int) {

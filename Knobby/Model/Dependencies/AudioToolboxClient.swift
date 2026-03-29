@@ -188,10 +188,36 @@ struct AudioToolboxClient {
         &clampedVolume,
       )
     },
+    observeOutputDevices: { onChange in
+      let queue = DispatchQueue.main
+      let systemObject = AudioObjectID(kAudioObjectSystemObject)
+      var devicesAddress = AudioObjectPropertyAddress(
+        mSelector: kAudioHardwarePropertyDevices,
+        mScope: kAudioObjectPropertyScopeGlobal,
+        mElement: kAudioObjectPropertyElementMain,
+      )
+      var defaultDeviceAddress = AudioObjectPropertyAddress(
+        mSelector: kAudioHardwarePropertyDefaultOutputDevice,
+        mScope: kAudioObjectPropertyScopeOutput,
+        mElement: kAudioObjectPropertyElementMain,
+      )
+      let listener: AudioObjectPropertyListenerBlock = { _, _ in
+        onChange()
+      }
+
+      AudioObjectAddPropertyListenerBlock(systemObject, &devicesAddress, queue, listener)
+      AudioObjectAddPropertyListenerBlock(systemObject, &defaultDeviceAddress, queue, listener)
+
+      return {
+        AudioObjectRemovePropertyListenerBlock(systemObject, &devicesAddress, queue, listener)
+        AudioObjectRemovePropertyListenerBlock(systemObject, &defaultDeviceAddress, queue, listener)
+      }
+    },
   )
 
   var outputDevices: () -> [Device]
   var getVolume: (_ deviceID: AudioDeviceID) -> Float
   var setVolume: (_ deviceID: AudioDeviceID, _ volume: Float) -> Void
+  var observeOutputDevices: (@escaping @Sendable () -> Void) -> () -> Void
 
 }

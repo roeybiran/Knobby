@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     mainWindow.contentViewController = ViewController(model: model) { [weak self] in
       self?.dismissKnobby()
     }
+    mainWindow.contentView?.wantsLayer = true
     mainWindow.delegate = self
 
     let settingsView = NSHostingView(rootView: SettingsView(statusItem: statusItem).fixedSize())
@@ -30,9 +31,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows _: Bool) -> Bool {
-    if !isVisible {
-      showKnobby()
-    }
+    showKnobby()
     NSApplication.shared.activate()
     return false
   }
@@ -58,6 +57,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private let settingsWindow = NSWindow.settings
   private let model = Model()
   private var isVisible = false
+  private let showScaleAnimation: CASpringAnimation = {
+    let animation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
+    animation.keyPath = "transform.scale"
+    animation.fromValue = CATransform3DMakeScale(0.001, 0.001, 1)
+    return animation
+  }()
+  private let hideScaleAnimation: CASpringAnimation = {
+    let animation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
+    animation.keyPath = "transform.scale"
+    animation.toValue = CATransform3DMakeScale(0.001, 0.001, 1)
+    return animation
+  }()
 
   private let statusItem: NSStatusItem = {
     let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -74,15 +85,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     guard let frame = NSScreen.main?.frame else { return }
 
     mainWindow.setFrame(frame, display: true, animate: false)
-    mainWindow.alphaValue = 1
+    mainWindow.alphaValue = 0
     mainWindow.makeKeyAndOrderFront(nil)
+    mainWindow.makeFirstResponder(nil)
+
+    if let targetView = mainWindow.contentView, let targetLayer = targetView.layer {
+      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
+      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
+      targetLayer.add(showScaleAnimation, forKey: "transformAnim")
+    }
+    NSAnimationContext.runAnimationGroup { context in
+      context.duration = 0.3
+      mainWindow.animator().alphaValue = 1
+    } completionHandler: {
+      Task { @MainActor in
+        guard
+          let viewController = self.mainWindow.contentViewController as? ViewController,
+          let slider = viewController.firstSlider
+        else { return }
+
+        self.mainWindow.makeFirstResponder(slider)
+      }
+    }
   }
 
   private func dismissKnobby() {
     guard isVisible else { return }
     isVisible = false
-    mainWindow.orderOut(nil)
-    NSApplication.shared.deactivate()
+    mainWindow.makeFirstResponder(nil)
+
+    if let targetView = mainWindow.contentView, let targetLayer = targetView.layer {
+      targetLayer.anchorPoint = .init(x: 0.5, y: 1)
+      targetLayer.position = .init(x: targetView.frame.midX, y: targetView.frame.maxY)
+      targetLayer.add(hideScaleAnimation, forKey: "transformAnim")
+    }
+    NSAnimationContext.runAnimationGroup { context in
+      context.duration = 0.3
+      mainWindow.animator().alphaValue = 0
+    } completionHandler: {
+      Task { @MainActor in
+        self.mainWindow.orderOut(nil)
+        self.mainWindow.alphaValue = 1
+        NSApplication.shared.deactivate()
+      }
+    }
   }
 
 }
@@ -93,13 +139,6 @@ extension AppDelegate: NSWindowDelegate {
   func windowDidBecomeKey(_: Notification) {
     isVisible = true
     model.refresh()
-
-    guard
-      let viewController = mainWindow.contentViewController as? ViewController,
-      let slider = viewController.slider(for: model.focusedSetting)
-    else { return }
-
-    mainWindow.makeFirstResponder(slider)
   }
 
   func windowDidResignKey(_: Notification) {

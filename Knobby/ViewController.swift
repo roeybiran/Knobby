@@ -80,36 +80,52 @@ final class ViewController: NSViewController {
 
   @IBAction
   func increase(_: Any?) {
-    model.onIncrease()
+    guard
+      let slider = (view.window?.firstResponder as? NSSlider) ?? firstSlider,
+      let kind = sliderKindsByIdentifier[ObjectIdentifier(slider)]
+    else { return }
+    model.increase(kind)
   }
 
   @IBAction
   func decrease(_: Any?) {
-    model.onDecrease()
+    guard
+      let slider = (view.window?.firstResponder as? NSSlider) ?? firstSlider,
+      let kind = sliderKindsByIdentifier[ObjectIdentifier(slider)]
+    else { return }
+    model.decrease(kind)
   }
 
   @IBAction
   func minimize(_: Any?) {
-    model.onMinimize()
+    guard
+      let slider = (view.window?.firstResponder as? NSSlider) ?? firstSlider,
+      let kind = sliderKindsByIdentifier[ObjectIdentifier(slider)]
+    else { return }
+    model.minimize(kind)
   }
 
   @IBAction
   func maximize(_: Any?) {
-    model.onMaximize()
+    guard
+      let slider = (view.window?.firstResponder as? NSSlider) ?? firstSlider,
+      let kind = sliderKindsByIdentifier[ObjectIdentifier(slider)]
+    else { return }
+    model.maximize(kind)
   }
 
   @objc
   func changeSliderValue(_ sender: NSSlider) {
     guard let kind = sliderKindsByIdentifier[ObjectIdentifier(sender)] else { return }
-    model.onSliderValueChanged(kind: kind, value: sender.floatValue)
+    model.setValue(kind: kind, value: sender.floatValue)
   }
 
   override func cancelOperation(_: Any?) {
     onDismiss()
   }
 
-  func slider(for kind: AdjustableMetric.Kind?) -> NSSlider? {
-    guard let kind else { return nil }
+  var firstSlider: NSSlider? {
+    guard let kind = visibleMetricKinds.first else { return nil }
     return slidersByKind[kind]
   }
 
@@ -163,7 +179,7 @@ final class ViewController: NSViewController {
       arrangedSubview.removeFromSuperview()
     }
 
-    for metric in model.values {
+    for metric in values {
       let title = NSTextField(labelWithString: metric.deviceName)
       title.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
       title.textColor = .secondaryLabelColor
@@ -172,7 +188,7 @@ final class ViewController: NSViewController {
       let imageView = NSImageView(image: image ?? .init())
       imageView.translatesAutoresizingMaskIntoConstraints = false
 
-      let slider = FocusTrackingSlider(
+      let slider = NSSlider(
         value: Double(metric.currentValue),
         minValue: .zero,
         maxValue: 1,
@@ -180,9 +196,6 @@ final class ViewController: NSViewController {
         action: #selector(changeSliderValue),
       )
       slider.controlSize = .extraLarge
-      slider.onBecomeFirstResponder = { [weak self] in
-        self?.model.onFocusedMetricChanged(metric.id)
-      }
 
       let controls = NSStackView(views: [imageView, slider])
       controls.orientation = .horizontal
@@ -214,16 +227,4 @@ final class ViewController: NSViewController {
     }
   }
 
-}
-
-private final class FocusTrackingSlider: NSSlider {
-  var onBecomeFirstResponder: (() -> Void)?
-
-  override func becomeFirstResponder() -> Bool {
-    let becameFirstResponder = super.becomeFirstResponder()
-    if becameFirstResponder {
-      onBecomeFirstResponder?()
-    }
-    return becameFirstResponder
-  }
 }

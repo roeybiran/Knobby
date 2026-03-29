@@ -27,10 +27,24 @@ struct BrightnessClient {
     setBrightness: { displayID, value in
       _ = DisplayServicesSetBrightness(displayID, max(0, min(1, value)))
     },
+    observeDisplays: { onChange in
+      let observer = NotificationCenter.default.addObserver(
+        forName: NSApplication.didChangeScreenParametersNotification,
+        object: nil,
+        queue: .main,
+      ) { _ in
+        onChange()
+      }
+
+      return {
+        NotificationCenter.default.removeObserver(observer)
+      }
+    },
   )
 
   var displays: () -> [Display]
   var getBrightness: (_ displayID: CGDirectDisplayID) -> Float
   var setBrightness: (_ displayID: CGDirectDisplayID, _ value: Float) -> Void
+  var observeDisplays: (@escaping @Sendable () -> Void) -> () -> Void
 
 }
