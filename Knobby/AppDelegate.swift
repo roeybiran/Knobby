@@ -57,12 +57,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private let settingsWindow = NSWindow.settings
   private let model = Model()
   private var isVisible = false
+
   private let showScaleAnimation: CASpringAnimation = {
     let animation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
     animation.keyPath = "transform.scale"
     animation.fromValue = CATransform3DMakeScale(0.001, 0.001, 1)
     return animation
   }()
+
   private let hideScaleAnimation: CASpringAnimation = {
     let animation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
     animation.keyPath = "transform.scale"

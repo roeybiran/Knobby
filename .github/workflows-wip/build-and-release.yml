@@ -1,0 +1,199 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APP_NAME: Knobby
+  PROJECT_PATH: Knobby.xcodeproj
+  SCHEME: Knobby
+  XCODE_VERSION: latest-stable
+
+jobs:
+  release:
+    name: Archive, Export, Notarize and Release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    env:
+      ARCHIVE_PATH: ${{ runner.temp }}/Knobby.xcarchive
+      CERTIFICATE_PATH: ${{ runner.temp }}/build-certificate.p12
+      DMG_PATH: ${{ runner.temp }}/Knobby-${{ github.ref_name }}.dmg
+      EXPORT_OPTIONS_PLIST: ${{ runner.temp }}/ExportOptions.plist
+      EXPORT_PATH: ${{ runner.temp }}/export
+      KEYCHAIN_PATH: ${{ runner.temp }}/build.keychain-db
+      STAGING_PATH: ${{ runner.temp }}/dmg
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Validate required secrets
+        env:
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          BUILD_CERTIFICATE_PASSWORD: ${{ secrets.BUILD_CERTIFICATE_PASSWORD }}
+          DEVELOPER_TEAM_ID: ${{ secrets.DEVELOPER_TEAM_ID }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=()
+          for name in \
+            APPLE_APP_SPECIFIC_PASSWORD \
+            APPLE_ID \
+            BUILD_CERTIFICATE_BASE64 \
+            BUILD_CERTIFICATE_PASSWORD \
+            DEVELOPER_TEAM_ID \
+            KEYCHAIN_PASSWORD
+          do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Missing required repository secrets: ${missing[*]}"
+            exit 1
+          fi
+
+      - name: Import Developer ID certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          BUILD_CERTIFICATE_PASSWORD: ${{ secrets.BUILD_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s' "$BUILD_CERTIFICATE_BASE64" | base64 -D > "$CERTIFICATE_PATH"
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security default-keychain -s "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH"
+          security import "$CERTIFICATE_PATH" \
+            -k "$KEYCHAIN_PATH" \
+            -P "$BUILD_CERTIFICATE_PASSWORD" \
+            -A \
+            -t cert \
+            -f pkcs12
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+      - name: Create export options plist
+        env:
+          DEVELOPER_TEAM_ID: ${{ secrets.DEVELOPER_TEAM_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$EXPORT_OPTIONS_PLIST" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>destination</key>
+            <string>export</string>
+            <key>method</key>
+            <string>developer-id</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>stripSwiftSymbols</key>
+            <true/>
+            <key>teamID</key>
+            <string>$DEVELOPER_TEAM_ID</string>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Archive release app
+        env:
+          DEVELOPER_TEAM_ID: ${{ secrets.DEVELOPER_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          xcodebuild archive \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath "$ARCHIVE_PATH" \
+            -destination "generic/platform=macOS" \
+            DEVELOPMENT_TEAM="$DEVELOPER_TEAM_ID" \
+            OTHER_CODE_SIGN_FLAGS="--keychain $KEYCHAIN_PATH"
+
+      - name: Export signed app
+        run: |
+          set -euo pipefail
+          xcodebuild -exportArchive \
+            -archivePath "$ARCHIVE_PATH" \
+            -exportPath "$EXPORT_PATH" \
+            -exportOptionsPlist "$EXPORT_OPTIONS_PLIST"
+
+      - name: Create DMG
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$STAGING_PATH"
+          mkdir -p "$STAGING_PATH"
+          cp -R "$EXPORT_PATH/$APP_NAME.app" "$STAGING_PATH/"
+          ln -s /Applications "$STAGING_PATH/Applications"
+
+          hdiutil create \
+            -volname "$APP_NAME" \
+            -srcfolder "$STAGING_PATH" \
+            -ov \
+            -format UDZO \
+            "$DMG_PATH"
+
+      - name: Notarize DMG
+        env:
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          DEVELOPER_TEAM_ID: ${{ secrets.DEVELOPER_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          xcrun notarytool submit "$DMG_PATH" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$DEVELOPER_TEAM_ID" \
+            --wait
+
+      - name: Staple DMG
+        run: |
+          set -euo pipefail
+          xcrun stapler staple "$DMG_PATH"
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Knobby-${{ github.ref_name }}
+          path: |
+            ${{ env.ARCHIVE_PATH }}
+            ${{ env.EXPORT_PATH }}/${{ env.APP_NAME }}.app
+            ${{ env.DMG_PATH }}
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" \
+            "$DMG_PATH#${APP_NAME}-${GITHUB_REF_NAME}.dmg" \
+            --generate-notes \
+            --verify-tag
+
+      - name: Clean up keychain
+        if: always()
+        run: security delete-keychain "$KEYCHAIN_PATH" || true

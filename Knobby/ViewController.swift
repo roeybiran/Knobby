@@ -74,6 +74,7 @@ final class ViewController: NSViewController {
 
       for await change in observations {
         render(values: change)
+        view.window?.recalculateKeyViewLoop()
       }
     }
   }
