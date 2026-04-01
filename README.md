@@ -1,9 +1,10 @@
-<div align="center">
-<img src="./Assets/appicon.png" alt="Knobby’s app icon" style="display:block" />
-<h1>Knobby</h1>
-<p>A tiny app to control your Mac’s volume and screen brightness with Vim key bindings.</p>
-<img src="./Assets/screenshot.jpg" alt="Screenshot of Knobby controlling audio devices and displays" width="332" />
-</div>
+# Knobby
+
+![Knobby’s app icon](./Assets/appicon.png)
+
+A tiny app to control your Mac’s volume and screen brightness with Vim key bindings.
+
+![Screenshot of Knobby controlling audio devices and displays](./Assets/screenshot.jpg)
 
 **Requires macOS Sequoia.**
 
