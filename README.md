@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./assets/appicon.png" alt="Knobby’s app icon" style="display:block" />
+<img src="./Assets/appicon.png" alt="Knobby’s app icon" style="display:block" />
 <h1>Knobby</h1>
 <p>A tiny app to control your Mac’s volume and screen brightness with Vim key bindings.</p>
 </div>
