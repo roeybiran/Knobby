@@ -187,6 +187,32 @@ struct AudioToolboxClient {
         volumeSize,
         &clampedVolume,
       )
+
+      guard clampedVolume > .zero else { return }
+
+      var muteAddress = AudioObjectPropertyAddress(
+        mSelector: kAudioDevicePropertyMute,
+        mScope: kAudioDevicePropertyScopeOutput,
+        mElement: kAudioObjectPropertyElementMain,
+      )
+      guard AudioObjectHasProperty(deviceID, &muteAddress) else { return }
+
+      var isSettable = DarwinBoolean(false)
+      guard AudioObjectIsPropertySettable(deviceID, &muteAddress, &isSettable) == noErr else {
+        return
+      }
+      guard isSettable.boolValue else { return }
+
+      var isMuted = UInt32.zero
+      let muteSize = UInt32(MemoryLayout.size(ofValue: isMuted))
+      _ = AudioObjectSetPropertyData(
+        deviceID,
+        &muteAddress,
+        0,
+        nil,
+        muteSize,
+        &isMuted,
+      )
     },
     observeOutputDevices: { onChange in
       let queue = DispatchQueue.main
