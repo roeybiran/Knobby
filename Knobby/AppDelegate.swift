@@ -57,6 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private let settingsWindow = NSWindow.settings
   private let model = Model()
   private var isVisible = false
+  private var refreshTimer: Timer?
 
   private let showScaleAnimation: CASpringAnimation = {
     let animation = CASpringAnimation(perceptualDuration: 0.3, bounce: 0.3)
@@ -86,6 +87,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private func showKnobby() {
     guard let frame = NSScreen.main?.frame else { return }
 
+    isVisible = true
     mainWindow.setFrame(frame, display: true, animate: false)
     mainWindow.alphaValue = 0
     mainWindow.makeKeyAndOrderFront(nil)
@@ -111,9 +113,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  /// Volume, mute and brightness can change outside Knobby (media keys, Control Center),
+  /// and brightness has no public change notification, so poll while Knobby is on screen.
+  private func startRefreshing() {
+    refreshTimer?.invalidate()
+    let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] _ in
+      Task { @MainActor in
+        // Don't fight a slider that is being dragged.
+        guard let self, self.isVisible, NSEvent.pressedMouseButtons == 0 else { return }
+        self.model.refresh()
+      }
+    }
+    RunLoop.main.add(timer, forMode: .common)
+    refreshTimer = timer
+  }
+
   private func dismissKnobby() {
     guard isVisible else { return }
     isVisible = false
+    refreshTimer?.invalidate()
+    refreshTimer = nil
     mainWindow.makeFirstResponder(nil)
 
     if let targetView = mainWindow.contentView, let targetLayer = targetView.layer {
@@ -126,6 +145,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       mainWindow.animator().alphaValue = 0
     } completionHandler: {
       Task { @MainActor in
+        // Knobby may have been shown again while the hide animation was running.
+        guard !self.isVisible else { return }
         self.mainWindow.orderOut(nil)
         self.mainWindow.alphaValue = 1
         NSApplication.shared.deactivate()
@@ -141,6 +162,7 @@ extension AppDelegate: NSWindowDelegate {
   func windowDidBecomeKey(_: Notification) {
     isVisible = true
     model.refresh()
+    startRefreshing()
   }
 
   func windowDidResignKey(_: Notification) {

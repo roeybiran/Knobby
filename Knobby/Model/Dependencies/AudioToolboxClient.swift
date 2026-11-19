@@ -214,6 +214,29 @@ struct AudioToolboxClient {
         &isMuted,
       )
     },
+    isMuted: { deviceID in
+      var muteAddress = AudioObjectPropertyAddress(
+        mSelector: kAudioDevicePropertyMute,
+        mScope: kAudioDevicePropertyScopeOutput,
+        mElement: kAudioObjectPropertyElementMain,
+      )
+      guard AudioObjectHasProperty(deviceID, &muteAddress) else { return false }
+
+      var isMuted = UInt32.zero
+      var muteSize = UInt32(MemoryLayout.size(ofValue: isMuted))
+      guard
+        AudioObjectGetPropertyData(
+          deviceID,
+          &muteAddress,
+          0,
+          nil,
+          &muteSize,
+          &isMuted,
+        ) == noErr
+      else { return false }
+
+      return isMuted != .zero
+    },
     observeOutputDevices: { onChange in
       let queue = DispatchQueue.main
       let systemObject = AudioObjectID(kAudioObjectSystemObject)
@@ -244,6 +267,7 @@ struct AudioToolboxClient {
   var outputDevices: () -> [Device]
   var getVolume: (_ deviceID: AudioDeviceID) -> Float
   var setVolume: (_ deviceID: AudioDeviceID, _ volume: Float) -> Void
+  var isMuted: (_ deviceID: AudioDeviceID) -> Bool
   var observeOutputDevices: (@escaping @Sendable () -> Void) -> () -> Void
 
 }

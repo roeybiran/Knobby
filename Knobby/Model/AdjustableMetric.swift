@@ -10,6 +10,7 @@ struct AdjustableMetric: Identifiable, Hashable {
   let kind: Kind
   let deviceName: String
   var currentValue: Float
+  var isMuted = false
 
   var id: Kind {
     kind
@@ -18,7 +19,7 @@ struct AdjustableMetric: Identifiable, Hashable {
   var imageName: String {
     switch kind {
     case .outputDevice:
-      "speaker.wave.2.fill"
+      isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill"
     case .displayDevice:
       "sun.max.fill"
     }

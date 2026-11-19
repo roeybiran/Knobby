@@ -6,7 +6,7 @@ A tiny app to control your Mac’s volume and screen brightness with Vim key bin
 
 ![Screenshot of Knobby controlling audio devices and displays](./Assets/screenshot.jpg)
 
-**Requires macOS Sequoia.**
+**Requires macOS Tahoe.**
 
 ## Install
 

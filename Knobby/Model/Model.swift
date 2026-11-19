@@ -64,10 +64,12 @@ final class Model {
   }
 
   func refresh() {
-    values = Self.makeValues(
+    let newValues = Self.makeValues(
       audioToolboxClient: audioToolboxClient,
       brightnessClient: brightnessClient,
     )
+    guard newValues != values else { return }
+    values = newValues
   }
 
   // MARK: Private
@@ -86,6 +88,7 @@ final class Model {
         kind: .outputDevice(device.id),
         deviceName: device.name,
         currentValue: audioToolboxClient.getVolume(device.id),
+        isMuted: audioToolboxClient.isMuted(device.id),
       )
     }
     let displayMetrics = brightnessClient.displays().map { display in
@@ -105,6 +108,10 @@ final class Model {
     switch values[index].kind {
     case .outputDevice(let deviceID):
       audioToolboxClient.setVolume(deviceID, clampedValue)
+      // Setting a nonzero volume unmutes the device.
+      if clampedValue > .zero {
+        values[index].isMuted = false
+      }
     case .displayDevice(let displayID):
       brightnessClient.setBrightness(displayID, clampedValue)
     }

@@ -61,22 +61,22 @@ final class ViewController: NSViewController {
     )
 
     render(values: model.values)
-  }
 
-  override func viewDidLayout() {
-    super.viewDidLayout()
-
-    Task {
-      let observations = Observations<[AdjustableMetric], Never> { [weak self] in
-        guard let self else { return [] }
-        return model.values
+    observationTask = Task { [weak self, model] in
+      let observations = Observations<[AdjustableMetric], Never> {
+        model.values
       }
 
       for await change in observations {
+        guard let self else { return }
         render(values: change)
-        view.window?.recalculateKeyViewLoop()
+        restoreFocusIfNeeded()
       }
     }
+  }
+
+  isolated deinit {
+    observationTask?.cancel()
   }
 
   @IBAction
@@ -160,12 +160,24 @@ final class ViewController: NSViewController {
   }()
 
   private var slidersByKind = [AdjustableMetric.Kind: NSSlider]()
+  private var imageViewsByKind = [AdjustableMetric.Kind: NSImageView]()
   private var sliderKindsByIdentifier = [ObjectIdentifier: AdjustableMetric.Kind]()
   private var visibleMetricKinds = [AdjustableMetric.Kind]()
+  private var observationTask: Task<Void, Never>?
+
+  /// Rebuilding the rows discards the focused slider, so hand focus back to the first one.
+  private func restoreFocusIfNeeded() {
+    guard let window = view.window else { return }
+    window.recalculateKeyViewLoop()
+    if window.isKeyWindow, !(window.firstResponder is NSSlider), let firstSlider {
+      window.makeFirstResponder(firstSlider)
+    }
+  }
 
   private func render(values: [AdjustableMetric]) {
     for value in values {
       slidersByKind[value.id]?.floatValue = value.currentValue
+      imageViewsByKind[value.id]?.image = NSImage(systemSymbolName: value.imageName, accessibilityDescription: nil)
     }
 
     let metricKinds = values.map(\.id)
@@ -174,6 +186,7 @@ final class ViewController: NSViewController {
     visibleMetricKinds = metricKinds
     sliderKindsByIdentifier.removeAll()
     slidersByKind.removeAll()
+    imageViewsByKind.removeAll()
 
     for arrangedSubview in allSlidersStack.arrangedSubviews {
       allSlidersStack.removeArrangedSubview(arrangedSubview)
@@ -213,6 +226,7 @@ final class ViewController: NSViewController {
       )
 
       slidersByKind[metric.id] = slider
+      imageViewsByKind[metric.id] = imageView
       sliderKindsByIdentifier[ObjectIdentifier(slider)] = metric.id
 
       allSlidersStack.addArrangedSubview(row)
